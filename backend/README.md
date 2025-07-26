@@ -1,0 +1,1 @@
+These are the supabase functions which we use as backend
