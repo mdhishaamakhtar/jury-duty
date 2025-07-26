@@ -18,7 +18,7 @@ export class ContentService {
 	async getNextDatapoint(): Promise<ContentItem | null> {
 		try {
 			const { data, error } = await supabase.functions.invoke('get_next_datapoint');
-			
+
 			if (error) {
 				console.error('Error invoking edge function:', error);
 				throw new Error(`Failed to fetch content: ${error.message}`);
@@ -29,7 +29,7 @@ export class ContentService {
 			}
 
 			const contentItem = data.data[0] as ContentItem;
-			
+
 			if (!contentItem.id || !contentItem.content) {
 				throw new Error('Invalid content format received');
 			}

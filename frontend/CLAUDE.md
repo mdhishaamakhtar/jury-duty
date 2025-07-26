@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 This is a SvelteKit frontend application for a content labeling platform. The app allows multiple users to view content and label it by choosing between two options. It uses:
+
 - SvelteKit 2.x with Svelte 5 for the framework
 - TypeScript for type safety
 - Tailwind CSS v4 with DaisyUI for styling (mobile-first approach)
@@ -14,6 +15,7 @@ This is a SvelteKit frontend application for a content labeling platform. The ap
 ## App Purpose
 
 Users can:
+
 - Sign in with Google OAuth through Supabase Auth
 - View content that needs to be labeled
 - Choose between two labeling options for each piece of content
@@ -98,6 +100,7 @@ npm run lint
 ## Database Schema Considerations
 
 Typical tables needed:
+
 - `content` - stores items to be labeled
 - `labels` - stores user labeling responses
 - `users` - managed by Supabase Auth

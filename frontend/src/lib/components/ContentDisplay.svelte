@@ -6,10 +6,9 @@
 
 <div class="card bg-base-100 shadow-xl">
 	<div class="card-body">
-		
-		<div class="bg-base-200 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
+		<div class="bg-base-200 flex min-h-[200px] items-center justify-center rounded-lg p-6">
 			<div class="text-center">
-				<div class="text-lg leading-relaxed text-base-content max-w-2xl">
+				<div class="text-base-content max-w-2xl text-lg leading-relaxed">
 					{content.content}
 				</div>
 			</div>

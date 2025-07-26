@@ -20,23 +20,23 @@ function createContentStore() {
 
 	return {
 		subscribe,
-		
+
 		async fetchNextContent() {
-			update(state => ({ ...state, loading: true, error: null }));
-			
+			update((state) => ({ ...state, loading: true, error: null }));
+
 			try {
 				const content = await contentService.getNextDatapoint();
-				update(state => ({ 
-					...state, 
-					currentContent: content, 
+				update((state) => ({
+					...state,
+					currentContent: content,
 					loading: false,
 					error: null
 				}));
 			} catch (error) {
 				const errorMessage = error instanceof Error ? error.message : 'Failed to fetch content';
-				update(state => ({ 
-					...state, 
-					loading: false, 
+				update((state) => ({
+					...state,
+					loading: false,
 					error: errorMessage,
 					currentContent: null
 				}));
@@ -44,8 +44,8 @@ function createContentStore() {
 		},
 
 		async submitLabel(label: string) {
-			update(state => ({ ...state, submittingLabel: true, error: null }));
-			
+			update((state) => ({ ...state, submittingLabel: true, error: null }));
+
 			try {
 				const currentState = get(contentStore);
 				if (!currentState.currentContent) {
@@ -53,22 +53,22 @@ function createContentStore() {
 				}
 
 				await contentService.submitLabel(currentState.currentContent.id, label);
-				
+
 				// After successful submission, fetch the next content
-				update(state => ({ ...state, submittingLabel: false }));
+				update((state) => ({ ...state, submittingLabel: false }));
 				await this.fetchNextContent();
 			} catch (error) {
 				const errorMessage = error instanceof Error ? error.message : 'Failed to submit label';
-				update(state => ({ 
-					...state, 
-					submittingLabel: false, 
+				update((state) => ({
+					...state,
+					submittingLabel: false,
 					error: errorMessage
 				}));
 			}
 		},
 
 		clearError() {
-			update(state => ({ ...state, error: null }));
+			update((state) => ({ ...state, error: null }));
 		},
 
 		reset() {
@@ -80,7 +80,9 @@ function createContentStore() {
 // Helper function to get current state (for use in actions)
 function get<T>(store: { subscribe: (fn: (value: T) => void) => () => void }): T {
 	let value: T;
-	const unsubscribe = store.subscribe((v) => { value = v; });
+	const unsubscribe = store.subscribe((v) => {
+		value = v;
+	});
 	unsubscribe();
 	return value!;
 }
