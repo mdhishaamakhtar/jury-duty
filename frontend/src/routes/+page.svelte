@@ -4,7 +4,8 @@
 	import { goto } from '$app/navigation';
 
 	onMount(async () => {
-		await authStore.initialize();
+		// Note: authStore.initialize() is called in +layout.svelte with server data
+		// We don't need to call it again here
 
 		// Redirect if already logged in
 		if ($user) {

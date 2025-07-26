@@ -9,7 +9,8 @@
 	const contentState = $derived($contentStore);
 
 	onMount(async () => {
-		await authStore.initialize();
+		// Note: authStore.initialize() is called in +layout.svelte with server data
+		// We don't need to call it again here
 
 		// Redirect if not logged in
 		if (!$loading && !$user) {

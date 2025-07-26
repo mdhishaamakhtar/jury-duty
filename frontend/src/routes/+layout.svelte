@@ -3,10 +3,10 @@
 	import { onMount } from 'svelte';
 	import { authStore } from '$lib/stores/auth';
 
-	let { children, data } = $props();
+	let { children } = $props();
 
 	onMount(() => {
-		authStore.initialize(data);
+		authStore.initialize();
 	});
 </script>
 
