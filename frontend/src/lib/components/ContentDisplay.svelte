@@ -4,14 +4,10 @@
 	let { content }: { content: ContentItem } = $props();
 </script>
 
-<div class="card bg-base-100 shadow-xl">
-	<div class="card-body">
-		<div class="bg-base-200 flex min-h-[200px] items-center justify-center rounded-lg p-6">
-			<div class="text-center">
-				<div class="text-base-content max-w-2xl text-lg leading-relaxed">
-					{content.content}
-				</div>
-			</div>
-		</div>
+<div class="rounded-2xl border border-gray-200/50 bg-white/80 p-4 backdrop-blur-sm sm:p-6 lg:p-8">
+	<div
+		class="mx-auto max-w-sm text-justify text-base leading-relaxed font-light text-gray-700 sm:max-w-2xl sm:text-lg lg:max-w-3xl lg:text-xl"
+	>
+		{content.content}
 	</div>
 </div>

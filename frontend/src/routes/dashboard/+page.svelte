@@ -9,7 +9,6 @@
 	const contentState = $derived($contentStore);
 
 	onMount(async () => {
-		// Redirect if not logged in
 		if (!$loading && !$user) {
 			goto('/');
 		}
@@ -40,165 +39,118 @@
 </script>
 
 {#if $loading}
-	<div class="hero bg-base-200 min-h-screen">
-		<div class="hero-content text-center">
-			<span class="loading loading-spinner loading-lg text-primary"></span>
+	<div
+		class="flex min-h-screen items-center justify-center bg-gradient-to-br from-rose-50 to-orange-50"
+	>
+		<div class="space-y-4 text-center">
+			<span class="loading loading-spinner loading-lg text-rose-400"></span>
+			<p class="font-light text-gray-500">Loading...</p>
 		</div>
 	</div>
 {:else if $user}
-	<div class="drawer lg:drawer-open min-h-screen">
-		<div class="drawer-content flex flex-col">
-			<!-- Main Content -->
-			<main class="flex-1 p-6">
-				<div class="mx-auto max-w-4xl space-y-6">
-					<!-- Error Alert -->
-					{#if contentState.error}
-						<div class="alert alert-error">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-6 w-6 shrink-0 stroke-current"
-								fill="none"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
-							<span>{contentState.error}</span>
-							<div>
-								<button
-									class="btn btn-sm btn-ghost"
-									onclick={handleDismissError}
-									aria-label="Dismiss error"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-4 w-4"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M6 18L18 6M6 6l12 12"
-										/>
-									</svg>
-								</button>
-							</div>
-						</div>
-					{/if}
+	<div class="min-h-screen bg-gradient-to-br from-rose-50 to-orange-50">
+		<!-- Header -->
+		<header class="border-b border-gray-200/50 bg-white/80 backdrop-blur-sm">
+			<div class="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
+				<h1 class="text-2xl font-light text-gray-800">jury duty</h1>
+				<button
+					class="btn btn-ghost btn-sm rounded-full px-4 font-light text-gray-600 hover:text-gray-800"
+					onclick={handleSignOut}
+				>
+					Sign out
+				</button>
+			</div>
+		</header>
 
-					<!-- Content States -->
-					{#if contentState.loading}
-						<div class="card bg-base-100 shadow-xl">
-							<div class="card-body">
-								<div class="hero">
-									<div class="hero-content text-center">
-										<div class="max-w-md">
-											<span class="loading loading-spinner loading-lg text-primary"></span>
-											<h3 class="mt-4 text-lg font-bold">Fetching Content</h3>
-											<p class="py-2">Please wait while we load the next item to label...</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					{:else if contentState.currentContent}
-						<!-- Content Display -->
-						<ContentDisplay content={contentState.currentContent} />
-
-						<!-- Labeling Interface -->
-						<LabelingInterface onLabelSubmit={handleLabelSubmitted} />
-					{:else}
-						<!-- Empty State -->
-						<div class="card bg-base-100 shadow-xl">
-							<div class="card-body">
-								<div class="hero">
-									<div class="hero-content text-center">
-										<div class="max-w-md">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												class="text-base-content/30 mx-auto h-24 w-24"
-												fill="none"
-												viewBox="0 0 24 24"
-												stroke="currentColor"
-											>
-												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													stroke-width="2"
-													d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-												/>
-											</svg>
-											<h3 class="text-3xl font-bold">No Content Available</h3>
-											<p class="py-6">
-												Ready to start labeling? Click the button below to fetch your first content
-												item.
-											</p>
-											<button class="btn btn-primary btn-lg" onclick={handleGetNextContent}>
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													fill="none"
-													viewBox="0 0 24 24"
-													class="h-6 w-6 stroke-current"
-												>
-													<path
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
-														d="M12 4v16m8-8H4"
-													></path>
-												</svg>
-												Start Labeling
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					{/if}
-				</div>
-			</main>
-		</div>
-
-		<!-- Sidebar -->
-		<div class="drawer-side">
-			<label for="drawer-toggle" aria-label="close sidebar" class="drawer-overlay"></label>
-			<aside class="bg-base-200 text-base-content min-h-full w-80">
-				<div class="p-4">
-					<div>
-						<a onclick={handleSignOut} class="flex cursor-pointer items-center space-x-2">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								class="h-4 w-4 stroke-current"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-								/>
-							</svg>
-							<span>Sign out</span>
-						</a>
+		<!-- Main Content -->
+		<main class="mx-auto max-w-4xl px-6 py-12 pb-32">
+			<!-- Error Alert -->
+			{#if contentState.error}
+				<div
+					class="mb-8 flex items-center justify-between rounded-2xl border border-red-200 bg-red-50 p-6"
+				>
+					<div class="flex items-center space-x-3">
+						<div class="h-2 w-2 rounded-full bg-red-400"></div>
+						<span class="font-light text-red-700">{contentState.error}</span>
 					</div>
+					<button
+						class="text-red-400 transition-colors hover:text-red-600"
+						onclick={handleDismissError}
+					>
+						<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+					</button>
 				</div>
-			</aside>
-		</div>
+			{/if}
+
+			<!-- Content States -->
+			{#if contentState.loading}
+				<div class="py-20 text-center">
+					<span class="loading loading-spinner loading-lg text-rose-400"></span>
+					<h3 class="mt-6 text-xl font-light text-gray-700">Loading content...</h3>
+					<p class="mt-2 font-light text-gray-500">Please wait while we fetch the next item</p>
+				</div>
+			{:else if contentState.currentContent}
+				<div class="space-y-8">
+					<!-- Content Display -->
+					<ContentDisplay content={contentState.currentContent} />
+
+					<!-- Labeling Interface -->
+					<LabelingInterface onLabelSubmit={handleLabelSubmitted} />
+				</div>
+			{:else}
+				<!-- Empty State -->
+				<div class="py-20 text-center">
+					<div
+						class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100"
+					>
+						<svg
+							class="h-8 w-8 text-gray-400"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+							/>
+						</svg>
+					</div>
+					<h3 class="mb-4 text-2xl font-light text-gray-700">No content available</h3>
+					<p class="mx-auto mb-8 max-w-md font-light text-gray-500">
+						Ready to start labeling? Click below to fetch your first content item.
+					</p>
+					<button
+						class="btn rounded-full border-gray-200 bg-white/80 px-8 py-3 font-light text-gray-700 transition-all duration-200 hover:bg-white"
+						onclick={handleGetNextContent}
+					>
+						Start Labeling
+					</button>
+				</div>
+			{/if}
+		</main>
 	</div>
 {:else}
-	<div class="flex min-h-screen items-center justify-center">
-		<div class="text-center">
-			<h2 class="mb-4 text-2xl font-bold">Access Denied</h2>
-			<p class="mb-4">Please sign in to access the dashboard.</p>
-			<a href="/" class="btn btn-primary">Go to Login</a>
+	<div
+		class="flex min-h-screen items-center justify-center bg-gradient-to-br from-rose-50 to-orange-50 p-6"
+	>
+		<div class="space-y-6 text-center">
+			<h2 class="text-2xl font-light text-gray-700">Access denied</h2>
+			<p class="font-light text-gray-500">Please sign in to access the dashboard</p>
+			<a
+				href="/"
+				class="btn rounded-full border-gray-200 bg-white/80 px-8 py-3 font-light text-gray-700 hover:bg-white"
+			>
+				Go to Login
+			</a>
 		</div>
 	</div>
 {/if}
