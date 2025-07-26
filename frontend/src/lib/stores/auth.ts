@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import type { User, Session } from '@supabase/supabase-js';
 import { supabase } from '$lib/supabase';
 import { goto } from '$app/navigation';
+import { PUBLIC_SITE_URL } from '$env/static/public';
 
 export const user = writable<User | null>(null);
 export const session = writable<Session | null>(null);
@@ -13,7 +14,7 @@ export const authStore = {
 			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'google',
 				options: {
-					redirectTo: `${window.location.origin}/dashboard`
+					redirectTo: `${PUBLIC_SITE_URL || window.location.origin}/dashboard`
 				}
 			});
 			if (error) throw error;
