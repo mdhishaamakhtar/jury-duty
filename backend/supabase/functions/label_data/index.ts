@@ -60,10 +60,13 @@ Deno.serve(async (req) => {
     );
   }
 
-  // Insert into table
+  // Update existing "started" entry to "completed" with label
   const { error } = await supabase
     .from("user_label_interaction")
-    .insert([{ user_id: user.id, dataset_id, label }]);
+    .update({ label, status: 'completed' })
+    .eq('user_id', user.id)
+    .eq('dataset_id', dataset_id)
+    .eq('status', 'started');
 
   if (error) {
     return new Response(
