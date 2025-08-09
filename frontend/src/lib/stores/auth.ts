@@ -7,12 +7,15 @@ import { browser } from '$app/environment';
 export const user = writable<User | null>(null);
 export const session = writable<Session | null>(null);
 export const loading = writable(true);
+export const signingIn = writable(false);
+export const signingOut = writable(false);
 
 export const authStore = {
 	async signInWithGoogle() {
 		try {
 			if (!browser) return;
 
+			signingIn.set(true);
 			const { error } = await supabase.auth.signInWithOAuth({
 				provider: 'google',
 				options: {
@@ -22,16 +25,20 @@ export const authStore = {
 			if (error) throw error;
 		} catch (error) {
 			console.error('Error signing in with Google:', error);
+			signingIn.set(false);
 		}
 	},
 
 	async signOut() {
 		try {
+			signingOut.set(true);
 			const { error } = await supabase.auth.signOut();
 			if (error) throw error;
 			goto('/');
 		} catch (error) {
 			console.error('Error signing out:', error);
+		} finally {
+			signingOut.set(false);
 		}
 	},
 
@@ -51,8 +58,10 @@ export const authStore = {
 			user.set(currentSession?.user ?? null);
 
 			if (event === 'SIGNED_IN' && currentSession) {
+				signingIn.set(false);
 				goto('/dashboard');
 			} else if (event === 'SIGNED_OUT') {
+				signingOut.set(false);
 				goto('/');
 			}
 		});

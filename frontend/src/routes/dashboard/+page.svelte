@@ -1,12 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { authStore, user, loading } from '$lib/stores/auth';
+	import { authStore, user, loading, signingOut } from '$lib/stores/auth';
 	import { contentStore } from '$lib/stores/content';
 	import { goto } from '$app/navigation';
 	import ContentDisplay from '$lib/components/ContentDisplay.svelte';
 	import LabelingInterface from '$lib/components/LabelingInterface.svelte';
+	import GuidelinesModal from '$lib/components/GuidelinesModal.svelte';
+	import BallotBoxLoader from '$lib/components/BallotBoxLoader.svelte';
+	import SimpleLoader from '$lib/components/SimpleLoader.svelte';
 
 	const contentState = $derived($contentStore);
+	let showGuidelines = $state(false);
+	let showingGuidelines = $state(false);
 
 	onMount(async () => {
 		if (!$loading && !$user) {
@@ -36,6 +41,18 @@
 	function handleDismissError() {
 		contentStore.clearError();
 	}
+
+	function openGuidelines() {
+		showingGuidelines = true;
+		setTimeout(() => {
+			showGuidelines = true;
+			showingGuidelines = false;
+		}, 200);
+	}
+
+	function closeGuidelines() {
+		showGuidelines = false;
+	}
 </script>
 
 {#if $loading}
@@ -51,14 +68,38 @@
 	<div class="min-h-screen bg-gradient-to-br from-rose-50 to-orange-50">
 		<!-- Header -->
 		<header class="border-b border-gray-200/50 bg-white/80 backdrop-blur-sm">
-			<div class="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-				<h1 class="text-2xl font-light text-gray-800">jury duty</h1>
-				<button
-					class="btn btn-ghost btn-sm rounded-full px-4 font-light text-gray-600 hover:text-gray-800"
-					onclick={handleSignOut}
-				>
-					Sign out
-				</button>
+			<div class="mx-auto max-w-4xl px-6 py-4">
+				<div class="flex items-center justify-between">
+					<h1 class="ml-2 text-2xl font-light text-gray-800">jury duty</h1>
+					<div class="-mr-4 flex items-center">
+						<button
+							class="btn btn-ghost btn-sm mr-1 rounded-full border border-transparent px-4 font-light text-gray-600 transition-all duration-200 hover:border-gray-200 hover:bg-white/80 hover:text-gray-800 active:scale-95 disabled:cursor-not-allowed"
+							class:opacity-50={showingGuidelines}
+							disabled={showingGuidelines}
+							onclick={openGuidelines}
+						>
+							{#if showingGuidelines}
+								<span class="loading loading-spinner loading-xs text-rose-400"></span>
+								Opening...
+							{:else}
+								Guidelines
+							{/if}
+						</button>
+						<button
+							class="btn btn-ghost btn-sm rounded-full border border-transparent px-4 font-light text-gray-600 transition-all duration-200 hover:border-gray-200 hover:bg-white/80 hover:text-gray-800 active:scale-95 disabled:cursor-not-allowed"
+							class:opacity-50={$signingOut}
+							disabled={$signingOut}
+							onclick={handleSignOut}
+						>
+							{#if $signingOut}
+								<span class="loading loading-spinner loading-xs text-rose-400"></span>
+								Signing out...
+							{:else}
+								Sign out
+							{/if}
+						</button>
+					</div>
+				</div>
 			</div>
 		</header>
 
@@ -90,12 +131,10 @@
 			{/if}
 
 			<!-- Content States -->
-			{#if contentState.loading}
-				<div class="py-20 text-center">
-					<span class="loading loading-spinner loading-lg text-rose-400"></span>
-					<h3 class="mt-6 text-xl font-light text-gray-700">Loading content...</h3>
-					<p class="mt-2 font-light text-gray-500">Please wait while we fetch the next item</p>
-				</div>
+			{#if contentState.showingBallotLoader}
+				<BallotBoxLoader lastDecision={contentState.lastDecision} />
+			{:else if contentState.loading}
+				<SimpleLoader />
 			{:else if contentState.currentContent}
 				<div class="space-y-8">
 					<!-- Content Display -->
@@ -154,3 +193,5 @@
 		</div>
 	</div>
 {/if}
+
+<GuidelinesModal open={showGuidelines} onClose={closeGuidelines} />

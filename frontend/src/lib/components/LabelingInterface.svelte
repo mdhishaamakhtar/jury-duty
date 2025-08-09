@@ -56,12 +56,15 @@
 
 <!-- Sticky buttons when content exists - responsive design -->
 {#if state.currentContent && !showFull}
-	<!-- Mobile: stick to bottom, Desktop: show inline if no scroll needed -->
+	<!-- Mobile: stick to bottom, Desktop: always show inline -->
 	<div
 		class="
-		{needsScroll ? 'fixed right-0 bottom-0 left-0 z-50' : 'relative'} 
-		border-t border-gray-200/50 bg-white/90 p-6 backdrop-blur-md
-		{needsScroll ? '' : 'mt-8 rounded-2xl border border-gray-200/50'}
+		{needsScroll ? 'fixed right-0 bottom-0 left-0 z-50 md:relative md:mt-8' : 'relative'} 
+		border-t border-gray-200/50 bg-white/95 backdrop-blur-md
+		{needsScroll
+			? 'p-4 md:rounded-2xl md:border md:p-6 md:shadow-none'
+			: 'mt-8 rounded-2xl border border-gray-200/50 p-6'}
+		{needsScroll ? 'shadow-2xl shadow-black/5 md:shadow-none' : ''}
 	"
 	>
 		<!-- Mobile layout -->
@@ -72,7 +75,12 @@
 				disabled={state.submittingLabel}
 				onclick={() => handleLabelSubmit('TRUE')}
 			>
-				<svg class="h-5 w-5 transition-transform group-active:scale-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<svg
+					class="h-5 w-5 transition-transform group-active:scale-90"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
@@ -89,7 +97,12 @@
 				disabled={state.submittingLabel}
 				onclick={() => handleLabelSubmit('FALSE')}
 			>
-				<svg class="h-5 w-5 transition-transform group-active:scale-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<svg
+					class="h-5 w-5 transition-transform group-active:scale-90"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
 					<path
 						stroke-linecap="round"
 						stroke-linejoin="round"
@@ -127,7 +140,11 @@
 							/>
 						</svg>
 					</div>
-					<div class="mb-2 text-lg font-medium text-emerald-700 transition-transform group-active:scale-95">TRUE</div>
+					<div
+						class="mb-2 text-lg font-medium text-emerald-700 transition-transform group-active:scale-95"
+					>
+						TRUE
+					</div>
 					<div class="text-sm font-light text-emerald-600">
 						Press <span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">1</span>,
 						<span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">←</span>, or
@@ -153,7 +170,11 @@
 							/>
 						</svg>
 					</div>
-					<div class="mb-2 text-lg font-medium text-rose-700 transition-transform group-active:scale-95">FALSE</div>
+					<div
+						class="mb-2 text-lg font-medium text-rose-700 transition-transform group-active:scale-95"
+					>
+						FALSE
+					</div>
 					<div class="text-sm font-light text-rose-600">
 						Press <span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">2</span>,
 						<span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">→</span>, or
