@@ -34,8 +34,8 @@ ranked AS (
         SELECT 1
         FROM user_label_interaction uli2
         WHERE uli2.dataset_id = d.id
-          AND uli2.user_id   = uid
-          AND uli2.status    = 'completed'
+           AND uli2.user_id   = uid
+           AND uli2.status    = 'completed'
     )
     GROUP BY d.id
 ),
