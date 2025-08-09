@@ -94,10 +94,10 @@ Jury Duty leverages Supabase's managed infrastructure for scalable data collecti
 
 ### Intelligent Work Distribution  
 The core innovation is a custom PostgreSQL function that intelligently assigns content to users:
-- Excludes previously labeled content per user
-- Load balances by prioritizing content with fewer labels
-- Prevents conflicts through atomic database operations
-- Optimized for sub-millisecond assignment times
+- Returns existing "started" content to prevent multiple assignments per user
+- Load balances by prioritizing content with fewer completed labels  
+- Prevents race conditions using `FOR UPDATE SKIP LOCKED` database locking
+- Enforces unique constraints ensuring one active assignment per user
 
 ### Research-Ready Data Output
 All annotations are stored with complete metadata enabling downstream analysis:

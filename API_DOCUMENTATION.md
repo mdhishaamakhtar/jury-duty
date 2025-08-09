@@ -83,11 +83,13 @@ The endpoint:
 
 **Database Function Logic:**
 ```sql
--- Prioritization algorithm:
--- 1. Content not previously seen by user
--- 2. Content with fewer existing labels (load balancing)
--- 3. Content without "started" status (conflict avoidance)
--- 4. Atomic INSERT to prevent race conditions
+-- Enhanced prioritization with race condition handling:
+-- 1. Returns existing "started" content for same user (prevents multiple assignments)
+-- 2. Prioritizes content with no interactions (priority 1)
+-- 3. Then content completed by 1 person (priority 2) 
+-- 4. Then content completed by 2+ people (priority 3)
+-- 5. Deprioritizes content started by others (priority 4)
+-- 6. Uses FOR UPDATE SKIP LOCKED for atomic assignment
 ```
 
 ### 2. Submit Label
@@ -190,12 +192,13 @@ CREATE TABLE user_label_interaction (
 
 #### `get_next_unlabeled_post(uid UUID)`
 
-Implements intelligent work distribution algorithm with the following priorities:
+Enhanced work distribution with improved race condition handling:
 
-1. **User Exclusion**: `WHERE d.id NOT IN (SELECT dataset_id FROM user_label_interaction WHERE user_id = uid)`
-2. **Load Balancing**: `ORDER BY count(completed_labels) ASC`  
-3. **Conflict Avoidance**: Deprioritizes content with "started" status
-4. **Atomic Assignment**: `INSERT INTO user_label_interaction (user_id, dataset_id, status) VALUES (uid, selected_id, 'started')`
+1. **Session Continuity**: Returns existing "started" content for the same user first
+2. **Priority Ranking**: Content ranked by interaction count (0, 1, 2+, started by others)
+3. **Race Prevention**: Uses `FOR UPDATE SKIP LOCKED` to prevent concurrent assignment conflicts
+4. **Atomic Operations**: Single transaction handles selection, insertion/update, and return
+5. **Unique Constraints**: Database enforces one active "started" item per user
 
 **Returns:** `TABLE(id UUID, content TEXT)`
 
