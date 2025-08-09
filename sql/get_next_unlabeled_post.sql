@@ -1,5 +1,5 @@
 CREATE
-OR REPLACE FUNCTION get_next_unlabeled_post(uid uuid) RETURNS TABLE(id uuid, content text) LANGUAGE sql AS $ $ WITH next_post AS (
+OR REPLACE FUNCTION get_next_unlabeled_post(uid uuid) RETURNS TABLE(id uuid, content text) LANGUAGE sql AS $$ WITH next_post AS (
     SELECT
         d.id
     FROM
@@ -13,26 +13,41 @@ OR REPLACE FUNCTION get_next_unlabeled_post(uid uuid) RETURNS TABLE(id uuid, con
                 user_label_interaction
             WHERE
                 user_id = uid
+                AND status = 'completed'
         )
     GROUP BY
         d.id,
         d.content
     ORDER BY
-        -- Posts with "started" entries rank last (1), others rank first (0)
+        -- Priority ranking: 0=my started, 1=no one started, 2=completed by 1, 3=completed by 2+, 4=started by others
         CASE
+            -- My started posts (highest priority)
             WHEN count(
+                CASE
+                    WHEN uli.user_id = uid
+                    AND uli.status = 'started' THEN 1
+                END
+            ) > 0 THEN 0 -- No interactions at all
+            WHEN count(uli.user_id) = 0 THEN 1 -- Has completed interactions but no started
+            WHEN count(
+                CASE
+                    WHEN uli.status = 'completed' THEN 1
+                END
+            ) > 0
+            AND count(
                 CASE
                     WHEN uli.status = 'started' THEN 1
                 END
-            ) > 0 THEN 1
-            ELSE 0
+            ) = 0 THEN 1 + LEAST(
+                count(
+                    CASE
+                        WHEN uli.status = 'completed' THEN 1
+                    END
+                ),
+                2
+            ) -- Started by someone else (lowest priority)
+            ELSE 4
         END,
-        -- Then by completed count
-        count(
-            CASE
-                WHEN uli.status = 'completed' THEN uli.user_id
-            END
-        ) ASC,
         d.id
     LIMIT
         1
@@ -54,4 +69,4 @@ FROM
             id = dataset_id
     ) as content;
 
-$ $;
+$$;
