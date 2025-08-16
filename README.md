@@ -1,7 +1,9 @@
-<p align="left">
-    <h1 align="left">Jury Duty</h1>
-    <h4 align="left">A scalable data labeling platform enabling rapid multi-contributor dataset annotation with comprehensive data collection for statistical analysis</h4>
-</p>
+<div align="center">
+    <img src="./frontend/static/favicon.svg" alt="Jury Duty Logo" width="95" height="90" style="vertical-align: middle; margin-right: 12px;">
+    <span style="font-size: 4.5em; font-weight: 200; vertical-align: middle; color: #1f2937;">Jury Duty</span>
+</div>
+
+<h4 align="left">A scalable data labeling platform enabling rapid multi-contributor dataset annotation with comprehensive data collection for statistical analysis</h4>
 
 ## Overview
 

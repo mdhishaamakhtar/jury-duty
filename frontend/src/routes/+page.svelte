@@ -3,6 +3,7 @@
 	import { authStore, user, loading, signingIn } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
 	import GuidelinesModal from '$lib/components/GuidelinesModal.svelte';
+	import BallotBoxLogo from '$lib/components/BallotBoxLogo.svelte';
 
 	let showGuidelines = $state(false);
 	let showingGuidelines = $state(false);
@@ -34,10 +35,18 @@
 	class="flex min-h-screen items-center justify-center bg-gradient-to-br from-rose-50 to-orange-50 p-6"
 >
 	<div class="w-full max-w-md space-y-8 text-center">
-		<!-- Title -->
-		<div class="space-y-4">
-			<h1 class="text-6xl font-light tracking-tight text-gray-800">jury duty</h1>
-			<p class="text-lg font-light text-gray-500">Help improve AI through content labeling</p>
+		<!-- Logo and Title -->
+		<div class="space-y-6">
+			<!-- Logo -->
+			<div class="flex justify-center">
+				<BallotBoxLogo size={120} />
+			</div>
+			
+			<!-- Title -->
+			<div class="space-y-4">
+				<h1 class="text-5xl sm:text-6xl font-light tracking-tight text-gray-800">jury duty</h1>
+				<p class="text-lg font-light text-gray-500">Help improve AI through content labeling</p>
+			</div>
 		</div>
 
 		<!-- Login Button -->

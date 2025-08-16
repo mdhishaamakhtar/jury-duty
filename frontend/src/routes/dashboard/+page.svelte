@@ -8,6 +8,7 @@
 	import GuidelinesModal from '$lib/components/GuidelinesModal.svelte';
 	import BallotBoxLoader from '$lib/components/BallotBoxLoader.svelte';
 	import SimpleLoader from '$lib/components/SimpleLoader.svelte';
+	import BallotBoxLogo from '$lib/components/BallotBoxLogo.svelte';
 
 	const contentState = $derived($contentStore);
 	let showGuidelines = $state(false);
@@ -70,7 +71,10 @@
 		<header class="border-b border-gray-200/50 bg-white/80 backdrop-blur-sm">
 			<div class="mx-auto max-w-4xl px-6 py-4">
 				<div class="flex items-center justify-between">
-					<h1 class="ml-2 text-2xl font-light text-gray-800">jury duty</h1>
+					<div class="flex items-center space-x-3">
+						<BallotBoxLogo size={32} />
+						<h1 class="text-2xl font-light text-gray-800">jury duty</h1>
+					</div>
 					<div class="-mr-4 flex items-center">
 						<button
 							class="btn btn-ghost btn-sm mr-1 rounded-full border border-transparent px-4 font-light text-gray-600 transition-all duration-200 hover:border-gray-200 hover:bg-white/80 hover:text-gray-800 active:scale-95 disabled:cursor-not-allowed"
