@@ -15,13 +15,13 @@
       }
 
       .title { 
-        font-family: 'InterEmbed', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        font-family: 'InterEmbed', 'Inter', 'Times New Roman', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
         font-weight: 400; 
         letter-spacing: -0.025em; 
         fill: #1f2937; 
       }
       .subtitle { 
-        font-family: 'InterEmbed', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        font-family: 'InterEmbed', 'Inter', 'Times New Roman', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
         font-weight: 400; 
         fill: #6b7280; 
       }
