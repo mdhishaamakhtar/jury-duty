@@ -1,18 +1,27 @@
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
-html {
-	font-family:
-		'Inter',
-		-apple-system,
-		BlinkMacSystemFont,
-		'Segoe UI',
-		Roboto,
-		sans-serif;
-	font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+:root {
+	--default-font-family: var(--font-sans);
+	--post-font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
 }
 
-body {
-	font-weight: 400;
-	line-height: 1.6;
+@theme {
+	--font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer base {
+	html {
+		font-family: var(--default-font-family);
+		font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+	}
+
+	body {
+		font-weight: 400;
+		line-height: 1.6;
+	}
+}
+
+@layer components {
+	/* Apply serif to post bodies */
+	.post-text { font-family: var(--post-font-family); }
 }

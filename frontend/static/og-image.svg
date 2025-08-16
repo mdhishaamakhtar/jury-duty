@@ -5,15 +5,24 @@
       <stop offset="100%" style="stop-color:#fff7ed;stop-opacity:1" />
     </linearGradient>
     <style>
+      /* Embedded Inter (400) for reliable OG rendering */
+      @font-face {
+        font-family: 'InterEmbed';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(data:font/woff2;base64,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) format('woff2');
+      }
+
       .title { 
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-        font-weight: 300; 
+        font-family: 'InterEmbed', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        font-weight: 400; 
         letter-spacing: -0.025em; 
         fill: #1f2937; 
       }
       .subtitle { 
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-        font-weight: 300; 
+        font-family: 'InterEmbed', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        font-weight: 400; 
         fill: #6b7280; 
       }
     </style>

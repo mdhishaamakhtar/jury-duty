@@ -9,10 +9,12 @@
 	import BallotBoxLoader from '$lib/components/BallotBoxLoader.svelte';
 	import SimpleLoader from '$lib/components/SimpleLoader.svelte';
 	import BallotBoxLogo from '$lib/components/BallotBoxLogo.svelte';
+    
 
 	const contentState = $derived($contentStore);
 	let showGuidelines = $state(false);
 	let showingGuidelines = $state(false);
+    
 
 	onMount(async () => {
 		if (!$loading && !$user) {
@@ -75,7 +77,7 @@
 						<BallotBoxLogo size={32} />
 						<h1 class="text-2xl font-light text-gray-800">jury duty</h1>
 					</div>
-					<div class="-mr-4 flex items-center">
+                    <div class="-mr-4 flex items-center">
 						<button
 							class="btn btn-ghost btn-sm mr-1 rounded-full border border-transparent px-4 font-light text-gray-600 transition-all duration-200 hover:border-gray-200 hover:bg-white/80 hover:text-gray-800 active:scale-95 disabled:cursor-not-allowed"
 							class:opacity-50={showingGuidelines}
@@ -140,9 +142,9 @@
 			{:else if contentState.loading}
 				<SimpleLoader />
 			{:else if contentState.currentContent}
-				<div class="space-y-8">
-					<!-- Content Display -->
-					<ContentDisplay content={contentState.currentContent} />
+                <div class="space-y-8">
+                    <!-- Content Display -->
+                    <ContentDisplay content={contentState.currentContent} />
 
 					<!-- Labeling Interface -->
 					<LabelingInterface onLabelSubmit={handleLabelSubmitted} />

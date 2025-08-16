@@ -62,7 +62,7 @@
 
 			<!-- Content -->
 			<div class="flex-1 overflow-y-auto px-6 py-6">
-				<div class="prose prose-gray max-w-none font-light">
+				<div class="post-text prose prose-gray max-w-none font-normal">
 					{@html LABELING_GUIDELINES.content
 						.replace(/\n/g, '<br>')
 						.replace(/### /g, '<h3 class="text-lg font-medium text-gray-800 mt-6 mb-3">')
