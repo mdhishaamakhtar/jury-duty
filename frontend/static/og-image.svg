@@ -26,7 +26,7 @@
   <g transform="translate(600, 315)">
     
     <!-- Ballot Box Logo (scaled up) -->
-    <g transform="translate(-60, -80) scale(3.75)">
+    <g transform="translate(-100, -160) scale(5.75)">
       <!-- Ballot Box Base -->
       <rect x="4" y="12" width="24" height="16" rx="2" ry="2" fill="#fecaca" stroke="#fca5a5" stroke-width="1"/>
       
@@ -54,10 +54,10 @@
     </g>
     
     <!-- Title -->
-    <text x="0" y="80" text-anchor="middle" class="title" font-size="96">jury duty</text>
+    <text x="0" y="100" text-anchor="middle" class="title" font-size="96">jury duty</text>
     
     <!-- Subtitle -->
-    <text x="0" y="130" text-anchor="middle" class="subtitle" font-size="32">Help improve AI through content labeling</text>
+    <text x="0" y="160" text-anchor="middle" class="subtitle" font-size="32">Help improve AI through content labeling</text>
     
   </g>
 </svg>
