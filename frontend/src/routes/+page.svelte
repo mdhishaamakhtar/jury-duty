@@ -45,7 +45,7 @@
 			<!-- Title -->
 			<div class="space-y-4">
 				<h1 class="text-5xl sm:text-6xl font-light tracking-tight text-gray-800">jury duty</h1>
-				<p class="text-lg font-light text-gray-500">Help improve AI through content labeling</p>
+				<p class="text-xl font-normal text-gray-500 tracking-normal">Help improve AI through content labeling</p>
 			</div>
 		</div>
 
