@@ -23,5 +23,228 @@
 
 @layer components {
 	/* Apply serif to post bodies */
-	.post-text { font-family: var(--post-font-family); }
+	.post-text {
+		font-family: var(--post-font-family);
+	}
+
+	/* =================================
+	   UNIFIED BUTTON DESIGN SYSTEM
+	   ================================= */
+
+	/* Base button styles - consistent foundation for all buttons */
+	.btn {
+		@apply inline-flex items-center justify-center;
+		@apply font-medium transition-all duration-200;
+		@apply border border-transparent;
+		@apply active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
+		@apply focus:ring-2 focus:ring-offset-2 focus:outline-none;
+		@apply rounded-xl; /* Unified border radius */
+		@apply text-center; /* Ensure text alignment consistency */
+		position: relative;
+		overflow: hidden;
+	}
+
+	/* Button hover ripple effect */
+	.btn::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 0;
+		height: 0;
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: 50%;
+		transition:
+			width 0.4s ease-out,
+			height 0.4s ease-out,
+			top 0.4s ease-out,
+			left 0.4s ease-out;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.btn:active::before {
+		width: 200px;
+		height: 200px;
+	}
+
+	/* Ensure button content stays above ripple effect */
+	.btn > * {
+		position: relative;
+		z-index: 1;
+	}
+
+	/* =================================
+	   BUTTON SIZE VARIANTS
+	   ================================= */
+
+	/* Small button size */
+	.btn-sm {
+		@apply px-3 py-2 text-sm;
+	}
+
+	/* Medium button size (default) */
+	.btn-md {
+		@apply px-4 py-2.5 text-sm;
+	}
+
+	/* Large button size */
+	.btn-lg {
+		@apply px-6 py-3 text-base;
+	}
+
+	/* Extra large button size */
+	.btn-xl {
+		@apply px-8 py-4 text-lg;
+	}
+
+	/* =================================
+	   BUTTON STYLE VARIANTS
+	   ================================= */
+
+	/* Primary button - main CTAs (Sign in with Google, Start Labeling) */
+	.btn-primary {
+		@apply border-rose-200 bg-rose-50 text-gray-700;
+		@apply hover:border-rose-300 hover:bg-rose-100 hover:shadow-md hover:shadow-rose-100;
+		@apply focus:ring-rose-300;
+	}
+
+	/* Secondary button - utility actions (Guidelines, Sign out) */
+	.btn-secondary {
+		@apply border-gray-200 bg-white/80 text-gray-600;
+		@apply hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 hover:shadow-sm;
+		@apply focus:ring-gray-300;
+	}
+
+	/* Success button - TRUE labeling */
+	.btn-success {
+		@apply border-emerald-200 bg-emerald-50 text-emerald-700;
+		@apply hover:border-emerald-300 hover:bg-emerald-100 hover:shadow-md hover:shadow-emerald-100;
+		@apply focus:ring-emerald-300;
+	}
+
+	/* Danger button - FALSE labeling */
+	.btn-danger {
+		@apply border-rose-200 bg-rose-50 text-rose-700;
+		@apply hover:border-rose-300 hover:bg-rose-100 hover:shadow-md hover:shadow-rose-100;
+		@apply focus:ring-rose-300;
+	}
+
+	/* Ghost button - minimal actions */
+	.btn-ghost {
+		@apply border-transparent bg-transparent text-gray-500;
+		@apply hover:border-gray-200 hover:bg-gray-50 hover:text-gray-700;
+		@apply focus:ring-gray-300;
+	}
+
+	/* Icon button - close buttons, minimal icons */
+	.btn-icon {
+		@apply border-transparent bg-transparent p-2 text-gray-400;
+		@apply hover:bg-gray-100 hover:text-gray-600;
+		@apply focus:ring-gray-300;
+		@apply rounded-lg; /* Slightly smaller radius for icon buttons */
+	}
+
+	/* =================================
+	   SPECIAL BUTTON VARIANTS
+	   ================================= */
+
+	/* Large labeling buttons with special styling */
+	.btn-label {
+		@apply rounded-2xl p-6 lg:p-8;
+		@apply transform hover:scale-105 focus:scale-105;
+		@apply transition-all duration-200;
+		@apply flex flex-col items-center justify-center;
+		@apply min-h-[8rem] lg:min-h-[10rem];
+	}
+
+	/* =================================
+	   BUTTON STATE MODIFIERS
+	   ================================= */
+
+	/* Loading state */
+	.btn[disabled] {
+		@apply cursor-not-allowed opacity-50;
+	}
+
+	/* Full width modifier */
+	.btn-full {
+		@apply w-full;
+	}
+
+	/* Pill shape modifier (for special cases) */
+	.btn-pill {
+		@apply rounded-full;
+	}
+
+	/* Loading state improvements */
+	.loading.loading-spinner {
+		animation: spin 1s linear infinite;
+	}
+
+	/* Custom selection colors for better brand consistency */
+	::selection {
+		background: rgba(251, 113, 133, 0.2);
+		color: rgb(75, 85, 99);
+	}
+
+	/* Smooth scroll behavior */
+	html {
+		scroll-behavior: smooth;
+	}
+
+	/* Enhanced focus states for accessibility */
+	.btn:focus-visible,
+	button:focus-visible {
+		outline: 2px solid rgb(59, 130, 246);
+		outline-offset: 2px;
+	}
+
+	/* Mobile touch improvements */
+	@media (max-width: 1023px) {
+		.btn {
+			@apply min-h-[2.75rem]; /* Better touch targets */
+		}
+
+		.btn-md {
+			@apply min-h-[3rem];
+		}
+
+		.btn-lg {
+			@apply min-h-[3.5rem];
+		}
+
+		/* Improved mobile spacing for button content */
+		.btn svg {
+			@apply flex-shrink-0;
+		}
+	}
+
+	/* Card hover effects */
+	.hover-lift {
+		transition:
+			transform 0.2s ease-in-out,
+			box-shadow 0.2s ease-in-out;
+	}
+
+	.hover-lift:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+	}
+
+	/* Pulse animation for status indicators */
+	@keyframes pulse-soft {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.7;
+		}
+	}
+
+	.animate-pulse-soft {
+		animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
 }

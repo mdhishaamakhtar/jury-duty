@@ -56,131 +56,136 @@
 
 <!-- Sticky buttons when content exists - responsive design -->
 {#if state.currentContent && !showFull}
-	<!-- Mobile: stick to bottom, Desktop: always show inline -->
+	<!-- Mobile: smaller, simpler. Desktop: always show inline -->
 	<div
 		class="
-		{needsScroll ? 'fixed right-0 bottom-0 left-0 z-50 md:relative md:mt-8' : 'relative'} 
+		{needsScroll ? 'fixed right-0 bottom-0 left-0 z-50 lg:relative lg:mt-8' : 'relative'} 
 		border-t border-gray-200/50 bg-white/95 backdrop-blur-md
 		{needsScroll
-			? 'p-4 md:rounded-2xl md:border md:p-6 md:shadow-none'
-			: 'mt-8 rounded-2xl border border-gray-200/50 p-6'}
-		{needsScroll ? 'shadow-2xl shadow-black/5 md:shadow-none' : ''}
+			? 'p-4 sm:p-5 lg:rounded-2xl lg:border lg:p-6 lg:shadow-sm lg:transition-shadow lg:duration-300 lg:hover:shadow-md'
+			: 'mt-8 rounded-2xl border border-gray-200/50 p-6 shadow-sm transition-shadow duration-300 hover:shadow-md'}
 	"
 	>
-		<!-- Mobile layout -->
-		<div class="mx-auto block grid max-w-md grid-cols-2 gap-3 md:hidden">
-			<button
-				class="group flex items-center justify-center space-x-2 rounded-full border border-emerald-200 bg-emerald-50/80 px-6 py-3 text-emerald-700 backdrop-blur-sm transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-100/80 active:scale-95 active:bg-emerald-200/80 disabled:cursor-not-allowed disabled:opacity-50"
-				class:opacity-50={state.submittingLabel}
-				disabled={state.submittingLabel}
-				onclick={() => handleLabelSubmit('TRUE')}
-			>
-				<svg
-					class="h-5 w-5 transition-transform group-active:scale-90"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M5 13l4 4L19 7"
-					/>
-				</svg>
-				<span class="text-lg font-medium transition-transform group-active:scale-95">TRUE</span>
-			</button>
-
-			<button
-				class="group flex items-center justify-center space-x-2 rounded-full border border-rose-200 bg-rose-50/80 px-6 py-3 text-rose-700 backdrop-blur-sm transition-all duration-200 hover:border-rose-300 hover:bg-rose-100/80 active:scale-95 active:bg-rose-200/80 disabled:cursor-not-allowed disabled:opacity-50"
-				class:opacity-50={state.submittingLabel}
-				disabled={state.submittingLabel}
-				onclick={() => handleLabelSubmit('FALSE')}
-			>
-				<svg
-					class="h-5 w-5 transition-transform group-active:scale-90"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M6 18L18 6M6 6l12 12"
-					/>
-				</svg>
-				<span class="text-lg font-medium transition-transform group-active:scale-95">FALSE</span>
-			</button>
-		</div>
-
-		<!-- Desktop layout -->
-		<div class="mx-auto hidden max-w-4xl md:block">
-			<div class="mb-6 text-center">
-				<h3 class="mb-1 text-lg font-light text-gray-700">Make your choice</h3>
-				<p class="text-sm font-light text-gray-500">Use keyboard shortcuts or click the buttons</p>
-			</div>
-
-			<div class="mx-auto grid max-w-2xl grid-cols-2 gap-6">
+		<!-- Mobile/Tablet layout - compact for scrolling -->
+		<div class="mx-auto block lg:hidden">
+			<div class="mx-auto grid max-w-md grid-cols-2 gap-3 sm:gap-4">
 				<button
-					class="group rounded-2xl border border-emerald-200 bg-emerald-50/80 p-6 text-center backdrop-blur-sm transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-100/80 active:scale-95 active:bg-emerald-200/80 disabled:cursor-not-allowed disabled:opacity-50"
+					class="btn btn-success btn-md group sm:btn-lg flex min-h-[3rem] items-center justify-center space-x-2 backdrop-blur-sm sm:min-h-[3.5rem]"
 					class:opacity-50={state.submittingLabel}
 					disabled={state.submittingLabel}
 					onclick={() => handleLabelSubmit('TRUE')}
 				>
 					<div
-						class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/80 transition-transform group-hover:scale-105 group-active:scale-95"
+						class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/90 transition-transform group-active:scale-90"
 					>
-						<svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
-								stroke-width="2"
+								stroke-width="2.5"
 								d="M5 13l4 4L19 7"
 							/>
 						</svg>
 					</div>
-					<div
-						class="mb-2 text-lg font-medium text-emerald-700 transition-transform group-active:scale-95"
+					<span class="text-sm font-medium transition-transform group-active:scale-95 sm:text-base"
+						>TRUE</span
 					>
-						TRUE
-					</div>
-					<div class="text-sm font-light text-emerald-600">
-						Press <span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">1</span>,
-						<span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">←</span>, or
-						<span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">T</span>
-					</div>
 				</button>
 
 				<button
-					class="group rounded-2xl border border-rose-200 bg-rose-50/80 p-6 text-center backdrop-blur-sm transition-all duration-200 hover:border-rose-300 hover:bg-rose-100/80 active:scale-95 active:bg-rose-200/80 disabled:cursor-not-allowed disabled:opacity-50"
+					class="btn btn-danger btn-md group sm:btn-lg flex min-h-[3rem] items-center justify-center space-x-2 backdrop-blur-sm sm:min-h-[3.5rem]"
 					class:opacity-50={state.submittingLabel}
 					disabled={state.submittingLabel}
 					onclick={() => handleLabelSubmit('FALSE')}
 				>
 					<div
-						class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/80 transition-transform group-hover:scale-105 group-active:scale-95"
+						class="flex h-5 w-5 items-center justify-center rounded-full bg-rose-500/90 transition-transform group-active:scale-90"
 					>
-						<svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
-								stroke-width="2"
+								stroke-width="2.5"
 								d="M6 18L18 6M6 6l12 12"
 							/>
 						</svg>
 					</div>
-					<div
-						class="mb-2 text-lg font-medium text-rose-700 transition-transform group-active:scale-95"
+					<span class="text-sm font-medium transition-transform group-active:scale-95 sm:text-base"
+						>FALSE</span
 					>
-						FALSE
+				</button>
+			</div>
+		</div>
+
+		<!-- Desktop layout -->
+		<div class="mx-auto hidden max-w-4xl lg:block">
+			<div class="mb-8 space-y-3 text-center">
+				<h3 class="text-xl font-light text-gray-700">Make your decision</h3>
+				<p class="mx-auto max-w-md text-sm font-light text-gray-500">
+					Evaluate the content above and choose the appropriate classification
+				</p>
+			</div>
+
+			<div class="mx-auto grid max-w-2xl grid-cols-2 gap-8">
+				<button
+					class="btn btn-success btn-label group text-center backdrop-blur-sm"
+					class:opacity-50={state.submittingLabel}
+					disabled={state.submittingLabel}
+					onclick={() => handleLabelSubmit('TRUE')}
+				>
+					<div
+						class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/90 shadow-lg transition-all duration-200 group-hover:scale-110 group-hover:shadow-emerald-200 group-active:scale-95"
+					>
+						<svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2.5"
+								d="M5 13l4 4L19 7"
+							/>
+						</svg>
 					</div>
-					<div class="text-sm font-light text-rose-600">
-						Press <span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">2</span>,
-						<span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">→</span>, or
-						<span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">F</span>
+					<div
+						class="text-xl font-medium text-emerald-700 transition-transform group-active:scale-95"
+					>
+						TRUE
 					</div>
 				</button>
+
+				<button
+					class="btn btn-danger btn-label group text-center backdrop-blur-sm"
+					class:opacity-50={state.submittingLabel}
+					disabled={state.submittingLabel}
+					onclick={() => handleLabelSubmit('FALSE')}
+				>
+					<div
+						class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-500/90 shadow-lg transition-all duration-200 group-hover:scale-110 group-hover:shadow-rose-200 group-active:scale-95"
+					>
+						<svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2.5"
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+					</div>
+					<div class="text-xl font-medium text-rose-700 transition-transform group-active:scale-95">
+						FALSE
+					</div>
+				</button>
+			</div>
+
+			<!-- Progress indicator -->
+			<div class="mt-8 text-center">
+				<div
+					class="inline-flex items-center space-x-2 rounded-full bg-gray-100/80 px-4 py-2 text-xs text-gray-500"
+				>
+					<svg class="h-3 w-3 animate-pulse text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+						<circle cx="10" cy="10" r="3" />
+					</svg>
+					<span>Take your time to make an accurate decision</span>
+				</div>
 			</div>
 		</div>
 
@@ -198,12 +203,14 @@
 	<div class="rounded-2xl border border-gray-200/50 bg-white/80 p-8 backdrop-blur-sm">
 		<div class="mb-8 text-center">
 			<h3 class="mb-2 text-xl font-light text-gray-700">Make your choice</h3>
-			<p class="text-sm font-light text-gray-500">Use keyboard shortcuts or click the buttons</p>
+			<p class="text-sm font-light text-gray-500">
+				Evaluate the content and choose the appropriate classification
+			</p>
 		</div>
 
 		<div class="mx-auto grid max-w-2xl grid-cols-1 gap-6 md:grid-cols-2">
 			<button
-				class="group rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-50"
+				class="btn btn-success btn-label group text-center"
 				class:opacity-50={state.submittingLabel}
 				disabled={state.submittingLabel || !state.currentContent}
 				onclick={() => handleLabelSubmit('TRUE')}
@@ -220,16 +227,11 @@
 						/>
 					</svg>
 				</div>
-				<div class="mb-2 text-lg font-medium text-emerald-700">TRUE</div>
-				<div class="text-sm font-light text-emerald-600">
-					Press <span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">1</span>,
-					<span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">←</span>, or
-					<span class="rounded bg-emerald-100 px-2 py-1 text-xs font-medium">T</span>
-				</div>
+				<div class="text-lg font-medium text-emerald-700">TRUE</div>
 			</button>
 
 			<button
-				class="group rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center transition-all duration-200 hover:border-rose-300 hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+				class="btn btn-danger btn-label group text-center"
 				class:opacity-50={state.submittingLabel}
 				disabled={state.submittingLabel || !state.currentContent}
 				onclick={() => handleLabelSubmit('FALSE')}
@@ -246,12 +248,7 @@
 						/>
 					</svg>
 				</div>
-				<div class="mb-2 text-lg font-medium text-rose-700">FALSE</div>
-				<div class="text-sm font-light text-rose-600">
-					Press <span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">2</span>,
-					<span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">→</span>, or
-					<span class="rounded bg-rose-100 px-2 py-1 text-xs font-medium">F</span>
-				</div>
+				<div class="text-lg font-medium text-rose-700">FALSE</div>
 			</button>
 		</div>
 
@@ -264,10 +261,10 @@
 
 		{#if !state.currentContent}
 			<div
-				class="mt-8 flex items-center space-x-3 rounded-2xl border border-amber-200 bg-amber-50 p-6"
+				class="mt-8 flex items-center space-x-3 rounded-2xl border border-rose-200 bg-rose-50 p-6"
 			>
-				<div class="h-2 w-2 flex-shrink-0 rounded-full bg-amber-400"></div>
-				<span class="font-light text-amber-700">No content available to label</span>
+				<div class="h-2 w-2 flex-shrink-0 rounded-full bg-rose-400"></div>
+				<span class="font-light text-rose-700">No content available to label</span>
 			</div>
 		{/if}
 	</div>
