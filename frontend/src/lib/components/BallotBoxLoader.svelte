@@ -9,7 +9,6 @@
 
 	let stage = $state(1); // 1: decision recorded, 2: ballot drop, 3: new content loading
 	let isTrue = $derived((lastDecision || 'TRUE') === 'TRUE');
-	let decisionColor = $derived(isTrue ? 'emerald' : 'rose');
 
 	onMount(() => {
 		// Stage 1: Show decision recorded (0.8s)

@@ -9,6 +9,20 @@
 
 	let { open = false, onClose }: Props = $props();
 
+	// Prevent body scroll when modal is open
+	$effect(() => {
+		if (open) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = '';
+		}
+
+		// Cleanup on component destroy
+		return () => {
+			document.body.style.overflow = '';
+		};
+	});
+
 	function handleBackdropClick(event: MouseEvent) {
 		if (event.target === event.currentTarget) {
 			onClose();
@@ -86,6 +100,7 @@
 			<div class="flex-1 overflow-y-auto">
 				<div class="px-6 py-8">
 					<div class="post-text prose prose-gray max-w-none space-y-6 font-normal">
+						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 						{@html LABELING_GUIDELINES.content
 							.replace(/\n/g, '<br>')
 							.replace(

@@ -19,6 +19,9 @@ export class ContentService {
 		try {
 			const { data, error } = await supabase.functions.invoke('get_next_datapoint');
 
+			// Log the raw JSON response from backend
+			console.log('Raw backend response:', JSON.stringify(data, null, 2));
+
 			if (error) {
 				console.error('Error invoking edge function:', error);
 				throw new Error(`Failed to fetch content: ${error.message}`);
