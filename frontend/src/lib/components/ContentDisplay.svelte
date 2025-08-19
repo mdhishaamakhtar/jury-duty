@@ -9,7 +9,7 @@
 	class="rounded-2xl border border-gray-200/50 bg-white/90 shadow-sm backdrop-blur-sm transition-shadow duration-300 hover:shadow-md"
 >
 	<!-- Content instruction header -->
-	<div class="border-b border-gray-100 bg-gray-50/50 px-4 py-3 sm:px-6">
+	<div class="rounded-t-2xl border-b border-gray-100 bg-gray-50/50 px-4 py-3 sm:px-6">
 		<div class="flex items-center justify-center space-x-2 text-center">
 			<svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 				<path
