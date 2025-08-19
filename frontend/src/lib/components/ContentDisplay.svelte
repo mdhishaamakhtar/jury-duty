@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ContentItem } from '$lib/services/content';
-	import { formatRedditText } from '$lib/utils/textFormatter';
+	import FormattedText from './FormattedText.svelte';
 
 	let { content }: { content: ContentItem } = $props();
 </script>
@@ -26,15 +26,14 @@
 	<!-- Main content area -->
 	<div class="p-4 sm:p-6 lg:p-8">
 		<div
-			class="post-text overflow-wrap-anywhere mx-auto max-w-sm text-justify text-base leading-relaxed font-normal break-words text-gray-800 selection:bg-rose-100 sm:max-w-2xl sm:text-lg lg:max-w-3xl lg:text-xl"
+			class="post-text mx-auto max-w-sm text-base font-normal text-gray-800 selection:bg-rose-100 sm:max-w-2xl sm:text-lg lg:max-w-3xl lg:text-xl"
 		>
-			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			{@html formatRedditText(content.content)}
+			<FormattedText text={content.content} />
 		</div>
 	</div>
 
 	<!-- Content footer with guidance -->
-	<div class="border-t border-gray-100 bg-gray-50/50 px-4 py-3 sm:px-6">
+	<div class="rounded-b-2xl border-t border-gray-100 bg-gray-50/50 px-4 py-3 sm:px-6">
 		<div class="flex items-center justify-center space-x-2 text-center">
 			<svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 				<path

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { LABELING_GUIDELINES } from '$lib/config/guidelines';
 	import { fade, scale } from 'svelte/transition';
+	import FormattedText from './FormattedText.svelte';
 
 	interface Props {
 		open: boolean;
@@ -100,27 +101,7 @@
 			<div class="flex-1 overflow-y-auto">
 				<div class="px-6 py-8">
 					<div class="post-text prose prose-gray max-w-none space-y-6 font-normal">
-						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-						{@html LABELING_GUIDELINES.content
-							.replace(/\n/g, '<br>')
-							.replace(
-								/### /g,
-								'<h3 class="text-lg font-semibold text-gray-800 mt-8 mb-4 pb-2 border-b border-gray-100">'
-							)
-							.replace(
-								/## /g,
-								'<h2 class="text-xl font-semibold text-gray-800 mt-10 mb-5 pb-3 border-b-2 border-rose-100">'
-							)
-							.replace(
-								/\*\*(.*?)\*\*/g,
-								'<strong class="font-medium text-gray-900 bg-gray-50 px-1 py-0.5 rounded">$1</strong>'
-							)
-							.replace(/\*(.*?)\*/g, '<em class="text-gray-700">$1</em>')
-							.replace(
-								/(\d+\. \*\*.*?\*\*)/g,
-								'<div class="mt-4 mb-3 p-3 bg-rose-50 rounded-lg border-l-4 border-rose-200">$1</div>'
-							)
-							.replace(/- /g, '• ')}
+						<FormattedText text={LABELING_GUIDELINES.content} />
 					</div>
 				</div>
 
