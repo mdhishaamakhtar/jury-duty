@@ -10,7 +10,7 @@
 
 	function parseRedditText(input: string): TextSegment[] {
 		if (!input) return [];
-		
+
 		const segments: TextSegment[] = [];
 		let remaining = input;
 
@@ -28,10 +28,10 @@
 
 		// Split by lines to handle quotes properly
 		const lines = remaining.split('\n');
-		
+
 		for (let i = 0; i < lines.length; i++) {
 			let line = lines[i];
-			
+
 			// Handle quotes (entire line)
 			if (line.match(/^>\s*/)) {
 				segments.push({
@@ -42,7 +42,7 @@
 				// Parse inline formatting
 				parseInlineFormatting(line, segments);
 			}
-			
+
 			// Add line break if not last line
 			if (i < lines.length - 1) {
 				segments.push({ type: 'break', content: '' });
@@ -54,7 +54,7 @@
 
 	function parseInlineFormatting(text: string, segments: TextSegment[]) {
 		let remaining = text;
-		
+
 		// Regex patterns for different formats
 		const patterns = [
 			{ type: 'link', regex: /\[([^\]]+)\]\(([^)]+)\)/ },
@@ -65,8 +65,11 @@
 		];
 
 		while (remaining.length > 0) {
-			let matched = false;
-			let earliestMatch = { index: remaining.length, type: '', match: null as any };
+			let earliestMatch: { index: number; type: string; match: RegExpMatchArray | null } = {
+				index: remaining.length,
+				type: '',
+				match: null
+			};
 
 			// Find the earliest match
 			for (const pattern of patterns) {
@@ -95,13 +98,12 @@
 					});
 				} else {
 					segments.push({
-						type: earliestMatch.type as any,
+						type: earliestMatch.type as TextSegment['type'],
 						content: match[1] // Content inside formatting
 					});
 				}
 
 				remaining = remaining.slice(earliestMatch.index + match[0].length);
-				matched = true;
 			} else {
 				// No more matches, add remaining text
 				if (remaining.length > 0) {
@@ -119,24 +121,34 @@
 </script>
 
 <div class="text-justify leading-relaxed">
-	{#each segments as segment}
+	{#each segments as segment, index (index)}
 		{#if segment.type === 'text'}
 			<span>{segment.content}</span>
 		{:else if segment.type === 'bold'}
 			<strong class="font-semibold text-gray-900">{segment.content}</strong>
 		{:else if segment.type === 'italic'}
-			<em class="italic text-gray-700">{segment.content}</em>
+			<em class="text-gray-700 italic">{segment.content}</em>
 		{:else if segment.type === 'strikethrough'}
-			<del class="line-through text-gray-500">{segment.content}</del>
+			<del class="text-gray-500 line-through">{segment.content}</del>
 		{:else if segment.type === 'code'}
-			<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-gray-800">{segment.content}</code>
+			<code class="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-sm text-gray-800"
+				>{segment.content}</code
+			>
 		{:else if segment.type === 'link'}
-			<a href={segment.content} target="_blank" rel="noopener noreferrer" 
-			   class="text-blue-600 hover:text-blue-800 underline whitespace-nowrap">{segment.linkText}</a>
+			<a
+				href={segment.content}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="whitespace-nowrap text-blue-600 underline hover:text-blue-800">{segment.linkText}</a
+			>
 		{:else if segment.type === 'quote'}
-			<blockquote class="border-l-4 border-gray-300 pl-4 py-2 my-2 bg-gray-50 text-gray-700 italic block">{segment.content}</blockquote>
+			<blockquote
+				class="my-2 block border-l-4 border-gray-300 bg-gray-50 py-2 pl-4 text-gray-700 italic"
+			>
+				{segment.content}
+			</blockquote>
 		{:else if segment.type === 'break'}
-			<br>
+			<br />
 		{/if}
 	{/each}
 </div>
