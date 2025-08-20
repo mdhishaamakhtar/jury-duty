@@ -139,7 +139,7 @@
 				href={segment.content}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="whitespace-nowrap text-blue-600 underline hover:text-blue-800">{segment.linkText}</a
+				class="break-words text-blue-500 underline hover:text-blue-700">{segment.linkText}</a
 			>
 		{:else if segment.type === 'quote'}
 			<blockquote
