@@ -3,6 +3,8 @@ import { supabase } from '$lib/supabase';
 export interface ContentItem {
 	id: string;
 	content: string;
+	labeled_count: number;
+	remaining_count: number;
 }
 
 export interface ContentResponse {
@@ -33,7 +35,9 @@ export class ContentService {
 
 			const contentItem = data.data[0] as ContentItem;
 
-			if (!contentItem.id || !contentItem.content) {
+			if (!contentItem.id || !contentItem.content || 
+			    contentItem.labeled_count === undefined || 
+			    contentItem.remaining_count === undefined) {
 				throw new Error('Invalid content format received');
 			}
 

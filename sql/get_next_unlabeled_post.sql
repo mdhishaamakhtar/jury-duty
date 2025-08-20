@@ -1,7 +1,9 @@
-CREATE OR REPLACE FUNCTION get_next_unlabeled_post(uid uuid)
-RETURNS TABLE (id uuid, content text)
-LANGUAGE sql
-AS $$
+create or replace function get_next_unlabeled_post (uid uuid) RETURNS table (
+  id uuid,
+  content text,
+  labeled_count bigint,
+  remaining_count bigint
+) LANGUAGE sql as $$
 WITH current_started AS (
     -- If the user already has something started, return it first
     SELECT uli.dataset_id
@@ -64,9 +66,20 @@ chosen AS (
     UNION ALL
     SELECT dataset_id AS id FROM upsert
     LIMIT 1
+),
+user_stats AS (
+    -- Calculate user progress statistics
+    SELECT 
+        COUNT(*) FILTER (WHERE uli.status = 'completed') AS labeled_count,
+        (SELECT COUNT(*) FROM dataset) - COUNT(*) FILTER (WHERE uli.status = 'completed') AS remaining_count
+    FROM user_label_interaction uli
+    WHERE uli.user_id = uid
 )
 SELECT
     c.id,
-    (SELECT d2.content FROM dataset d2 WHERE d2.id = c.id) AS content
-FROM chosen c;
+    (SELECT d2.content FROM dataset d2 WHERE d2.id = c.id) AS content,
+    us.labeled_count,
+    us.remaining_count
+FROM chosen c
+CROSS JOIN user_stats us;
 $$;

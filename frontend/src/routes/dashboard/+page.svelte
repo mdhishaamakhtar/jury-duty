@@ -13,6 +13,7 @@
 	const contentState = $derived($contentStore);
 	let showGuidelines = $state(false);
 	let showingGuidelines = $state(false);
+	let showMobileProgress = $state(false);
 
 	onMount(async () => {
 		if (!$loading && !$user) {
@@ -54,6 +55,10 @@
 	function closeGuidelines() {
 		showGuidelines = false;
 	}
+
+	function toggleMobileProgress() {
+		showMobileProgress = !showMobileProgress;
+	}
 </script>
 
 {#if $loading}
@@ -67,24 +72,76 @@
 	<div class="min-h-screen bg-rose-50">
 		<!-- Header -->
 		<header class="border-b border-gray-200/50 bg-white/90 shadow-sm backdrop-blur-md">
-			<div class="mx-auto max-w-4xl px-6 py-5">
-				<div class="flex items-center justify-between">
-					<!-- Left side - Logo & Title -->
-					<div class="flex items-center space-x-4">
-						<div class="transition-transform hover:scale-105">
-							<BallotBoxLogo size={36} />
-						</div>
-						<div class="space-y-1">
-							<h1 class="text-2xl font-light text-gray-800">jury duty</h1>
-							<div class="flex items-center space-x-2 text-xs">
-								<div class="h-2 w-2 animate-pulse rounded-full bg-green-400"></div>
-								<span class="font-light text-gray-500">Active session</span>
+			<div class="mx-auto max-w-4xl px-6 py-4 sm:py-5">
+				<!-- Single row header with everything -->
+				<div class="flex min-h-[2.5rem] items-center justify-between gap-2">
+					<!-- Left: Logo + Title + Progress -->
+					<div class="flex min-w-0 flex-1 items-center gap-3">
+						<!-- Logo + Title -->
+						<div class="flex items-center gap-2.5">
+							<div class="flex-shrink-0 transition-transform hover:scale-105">
+								<BallotBoxLogo size={28} />
 							</div>
+							<h1 class="text-lg font-light text-gray-800 sm:text-xl">jury duty</h1>
 						</div>
+
+						<!-- Progress - only show on wider screens when we have content -->
+						{#if contentState.currentContent}
+							{@const totalCount = contentState.currentContent.labeled_count + contentState.currentContent.remaining_count}
+							{@const progressPercent = totalCount > 0 ? (contentState.currentContent.labeled_count / totalCount) * 100 : 0}
+							<div class="hidden items-center gap-3 text-xs sm:flex">
+								<div class="h-3 w-px bg-gray-200"></div>
+								<div class="flex items-center gap-2">
+									<!-- Progress bar -->
+									<div class="h-2 w-16 overflow-hidden rounded-full bg-gray-200">
+										<div 
+											class="h-full bg-emerald-400 transition-all duration-300"
+											style="width: {progressPercent}%"
+										></div>
+									</div>
+									<!-- Fraction + Percentage -->
+									<span class="font-mono-progress text-sm font-medium text-gray-600">
+										{contentState.currentContent.labeled_count}/{totalCount} ({Math.round(progressPercent)}%)
+									</span>
+								</div>
+							</div>
+						{:else}
+							<div class="hidden items-center gap-3 text-xs sm:flex">
+								<div class="h-3 w-px bg-gray-200"></div>
+								<div class="flex items-center gap-1.5">
+									<div class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-400"></div>
+									<span class="font-light text-gray-500">Active</span>
+								</div>
+							</div>
+						{/if}
 					</div>
 
-					<!-- Right side - Actions -->
-					<div class="flex items-center space-x-2">
+					<!-- Right: Action buttons -->
+					<div class="flex flex-shrink-0 items-center gap-1.5">
+						<!-- Progress button - always show on mobile, disable when no content -->
+						<button
+							class="btn btn-secondary btn-md group gap-2 focus:outline-none focus:ring-0 focus:ring-offset-0 sm:hidden"
+							class:bg-emerald-50={showMobileProgress && contentState.currentContent}
+							class:border-emerald-200={showMobileProgress && contentState.currentContent}
+							class:text-emerald-700={showMobileProgress && contentState.currentContent}
+							disabled={!contentState.currentContent}
+							onclick={toggleMobileProgress}
+							title="View Progress"
+						>
+							<svg 
+								class="h-4 w-4 transition-transform group-hover:scale-110"
+								class:text-gray-600={contentState.currentContent}
+								class:text-gray-400={!contentState.currentContent}
+								fill="none" 
+								viewBox="0 0 24 24" 
+								stroke="currentColor"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+							</svg>
+						</button>
+
+						<!-- Guidelines button -->
 						<button
 							class="btn btn-secondary btn-md group gap-2"
 							class:opacity-50={showingGuidelines}
@@ -108,9 +165,10 @@
 								<span class="loading loading-spinner loading-xs hidden text-rose-400 sm:inline"
 								></span>
 							{/if}
-							<span class="hidden sm:inline">{showingGuidelines ? 'Opening...' : 'Guidelines'}</span
-							>
+							<span class="hidden sm:inline">{showingGuidelines ? 'Opening...' : 'Guidelines'}</span>
 						</button>
+
+						<!-- Sign out button -->
 						<button
 							class="btn btn-secondary btn-md group gap-2"
 							class:opacity-50={$signingOut}
@@ -138,8 +196,78 @@
 						</button>
 					</div>
 				</div>
+
 			</div>
 		</header>
+
+		<!-- Mobile Progress Panel -->
+		{#if contentState.currentContent}
+			{@const totalCount = contentState.currentContent.labeled_count + contentState.currentContent.remaining_count}
+			{@const progressPercent = totalCount > 0 ? (contentState.currentContent.labeled_count / totalCount) * 100 : 0}
+			<div 
+				class="border-b border-gray-200/50 bg-white/95 backdrop-blur-md sm:hidden overflow-hidden transition-all duration-200 ease-out"
+				class:max-h-0={!showMobileProgress}
+				class:max-h-32={showMobileProgress}
+			>
+				<div class="mx-auto max-w-4xl px-6 py-4">
+					<div class="flex items-center justify-center gap-4">
+						<!-- Large progress circle -->
+						<div class="relative">
+							<div class="h-16 w-16">
+								<svg class="h-full w-full -rotate-90 transform" viewBox="0 0 100 100">
+									<!-- Background circle -->
+									<circle
+										cx="50" 
+										cy="50" 
+										r="45"
+										fill="none"
+										stroke="rgb(229, 231, 235)"
+										stroke-width="8"
+									/>
+									<!-- Progress circle -->
+									<circle
+										cx="50"
+										cy="50" 
+										r="45"
+										fill="none"
+										stroke="rgb(52, 211, 153)"
+										stroke-width="8"
+										stroke-dasharray={`${2 * Math.PI * 45}`}
+										stroke-dashoffset={`${2 * Math.PI * 45 * (1 - progressPercent / 100)}`}
+										stroke-linecap="round"
+										class="transition-all duration-500"
+									/>
+								</svg>
+							</div>
+							<!-- Percentage text -->
+							<div class="absolute inset-0 flex items-center justify-center">
+								<span class="text-sm font-bold text-emerald-500">
+									{Math.round(progressPercent)}%
+								</span>
+							</div>
+						</div>
+
+						<!-- Stats -->
+						<div class="text-center">
+							<div class="space-y-1">
+								<div class="flex items-center justify-center gap-1">
+									<div class="h-2 w-2 rounded-full bg-emerald-400"></div>
+									<span class="text-sm font-medium text-gray-700">
+										{contentState.currentContent.labeled_count} labeled
+									</span>
+								</div>
+								<div class="flex items-center justify-center gap-1">
+									<div class="h-2 w-2 rounded-full bg-gray-300"></div>
+									<span class="text-sm font-medium text-gray-500">
+										{contentState.currentContent.remaining_count} remaining
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
 
 		<!-- Main Content -->
 		<main class="mx-auto max-w-4xl px-6 py-12 pb-32">

@@ -27,6 +27,11 @@
 		font-family: var(--post-font-family);
 	}
 
+	/* Monospace font for progress numbers */
+	.font-mono-progress {
+		font-family: 'Source Code Pro', monospace;
+	}
+
 	/* =================================
 	   UNIFIED BUTTON DESIGN SYSTEM
 	   ================================= */
