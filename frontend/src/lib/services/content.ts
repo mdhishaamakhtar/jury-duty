@@ -35,9 +35,12 @@ export class ContentService {
 
 			const contentItem = data.data[0] as ContentItem;
 
-			if (!contentItem.id || !contentItem.content || 
-			    contentItem.labeled_count === undefined || 
-			    contentItem.remaining_count === undefined) {
+			if (
+				!contentItem.id ||
+				!contentItem.content ||
+				contentItem.labeled_count === undefined ||
+				contentItem.remaining_count === undefined
+			) {
 				throw new Error('Invalid content format received');
 			}
 

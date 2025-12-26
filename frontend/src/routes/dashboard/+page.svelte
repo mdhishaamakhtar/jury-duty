@@ -87,21 +87,26 @@
 
 						<!-- Progress - only show on wider screens when we have content -->
 						{#if contentState.currentContent}
-							{@const totalCount = contentState.currentContent.labeled_count + contentState.currentContent.remaining_count}
-							{@const progressPercent = totalCount > 0 ? (contentState.currentContent.labeled_count / totalCount) * 100 : 0}
+							{@const totalCount =
+								contentState.currentContent.labeled_count +
+								contentState.currentContent.remaining_count}
+							{@const progressPercent =
+								totalCount > 0 ? (contentState.currentContent.labeled_count / totalCount) * 100 : 0}
 							<div class="hidden items-center gap-3 text-xs sm:flex">
 								<div class="h-3 w-px bg-gray-200"></div>
 								<div class="flex items-center gap-2">
 									<!-- Progress bar -->
 									<div class="h-2 w-16 overflow-hidden rounded-full bg-gray-200">
-										<div 
+										<div
 											class="h-full bg-emerald-400 transition-all duration-300"
 											style="width: {progressPercent}%"
 										></div>
 									</div>
 									<!-- Fraction + Percentage -->
 									<span class="font-mono-progress text-sm font-medium text-gray-600">
-										{contentState.currentContent.labeled_count}/{totalCount} ({Math.round(progressPercent)}%)
+										{contentState.currentContent.labeled_count}/{totalCount} ({Math.round(
+											progressPercent
+										)}%)
 									</span>
 								</div>
 							</div>
@@ -120,7 +125,7 @@
 					<div class="flex flex-shrink-0 items-center gap-1.5">
 						<!-- Progress button - always show on mobile, disable when no content -->
 						<button
-							class="btn btn-secondary btn-md group gap-2 focus:outline-none focus:ring-0 focus:ring-offset-0 sm:hidden"
+							class="btn btn-secondary btn-md group gap-2 focus:ring-0 focus:ring-offset-0 focus:outline-none sm:hidden"
 							class:bg-emerald-50={showMobileProgress && contentState.currentContent}
 							class:border-emerald-200={showMobileProgress && contentState.currentContent}
 							class:text-emerald-700={showMobileProgress && contentState.currentContent}
@@ -128,16 +133,26 @@
 							onclick={toggleMobileProgress}
 							title="View Progress"
 						>
-							<svg 
+							<svg
 								class="h-4 w-4 transition-transform group-hover:scale-110"
 								class:text-gray-600={contentState.currentContent}
 								class:text-gray-400={!contentState.currentContent}
-								fill="none" 
-								viewBox="0 0 24 24" 
+								fill="none"
+								viewBox="0 0 24 24"
 								stroke="currentColor"
 							>
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
+								/>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
+								/>
 							</svg>
 						</button>
 
@@ -165,7 +180,8 @@
 								<span class="loading loading-spinner loading-xs hidden text-rose-400 sm:inline"
 								></span>
 							{/if}
-							<span class="hidden sm:inline">{showingGuidelines ? 'Opening...' : 'Guidelines'}</span>
+							<span class="hidden sm:inline">{showingGuidelines ? 'Opening...' : 'Guidelines'}</span
+							>
 						</button>
 
 						<!-- Sign out button -->
@@ -196,16 +212,17 @@
 						</button>
 					</div>
 				</div>
-
 			</div>
 		</header>
 
 		<!-- Mobile Progress Panel -->
 		{#if contentState.currentContent}
-			{@const totalCount = contentState.currentContent.labeled_count + contentState.currentContent.remaining_count}
-			{@const progressPercent = totalCount > 0 ? (contentState.currentContent.labeled_count / totalCount) * 100 : 0}
-			<div 
-				class="border-b border-gray-200/50 bg-white/95 backdrop-blur-md sm:hidden overflow-hidden transition-all duration-200 ease-out"
+			{@const totalCount =
+				contentState.currentContent.labeled_count + contentState.currentContent.remaining_count}
+			{@const progressPercent =
+				totalCount > 0 ? (contentState.currentContent.labeled_count / totalCount) * 100 : 0}
+			<div
+				class="overflow-hidden border-b border-gray-200/50 bg-white/95 backdrop-blur-md transition-all duration-200 ease-out sm:hidden"
 				class:max-h-0={!showMobileProgress}
 				class:max-h-32={showMobileProgress}
 			>
@@ -217,8 +234,8 @@
 								<svg class="h-full w-full -rotate-90 transform" viewBox="0 0 100 100">
 									<!-- Background circle -->
 									<circle
-										cx="50" 
-										cy="50" 
+										cx="50"
+										cy="50"
 										r="45"
 										fill="none"
 										stroke="rgb(229, 231, 235)"
@@ -227,7 +244,7 @@
 									<!-- Progress circle -->
 									<circle
 										cx="50"
-										cy="50" 
+										cy="50"
 										r="45"
 										fill="none"
 										stroke="rgb(52, 211, 153)"
