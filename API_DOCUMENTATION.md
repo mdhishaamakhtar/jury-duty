@@ -360,4 +360,4 @@ The structured data format enables direct integration with statistical analysis 
 - **SPSS/SAS**: Export via CSV or direct database connection
 - **Excel**: Query via Power Query or export functionality
 
-This comprehensive API documentation provides researchers and developers with all necessary information to integrate, extend, and analyze data collected through the Jury Duty platform.
+This comprehensive API documentation provides researchers and developers with all necessary information to integrate, extend, and analyze data collected through the Jury Duty engine.

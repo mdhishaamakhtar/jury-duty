@@ -4,11 +4,11 @@
 
 # Jury Duty
 
-A scalable data labeling platform enabling rapid multi-contributor dataset annotation with comprehensive data collection for statistical analysis
+A scalable data labeling engine enabling rapid multi-contributor dataset annotation with comprehensive data collection for statistical analysis
 
 ## Overview
 
-Jury Duty is a streamlined data annotation platform that enables organizations and researchers to upload datasets and orchestrate simultaneous labeling by multiple contributors. Built on Supabase's powerful infrastructure, the platform focuses on efficient data collection and storage, providing researchers with the structured data needed to perform inter-rater reliability (IRR) analysis, bias detection, and statistical validation.
+Jury Duty is a streamlined data annotation engine that enables researchers to orchestrate simultaneous labeling of datasets by multiple contributors. Built on Supabase's powerful infrastructure, the engine focuses on efficient data collection and storage, providing researchers with the structured data needed to perform inter-rater reliability (IRR) analysis, bias detection, and statistical validation.
 
 The project demonstrates expertise in:
 - **Supabase Integration**: Full-stack leveraging of Supabase Auth, Database, and Edge Functions
@@ -54,7 +54,7 @@ Jury Duty solves the critical bottleneck of dataset annotation by enabling paral
 - **Scalable Architecture**: Handle projects from dozens to thousands of contributors
 
 ### 🔬 **Statistical Analysis Foundation**  
-The platform provides researchers with structured data for rigorous analysis:
+The engine provides researchers with structured data for rigorous analysis:
 - **IRR Calculations**: Data format enables Cohen's Kappa, Fleiss' Kappa, and agreement metrics
 - **Bias Detection**: Query annotation patterns to identify systematic biases
 - **Quality Control**: Analyze contributor consistency and outlier detection
@@ -145,7 +145,7 @@ npx supabase db push --environment production
 npx supabase functions deploy --environment production
 ```
 
-The platform will be available at your deployment URL with backend functions running on Supabase's global edge network.
+The engine will be available at your deployment URL with backend functions running on Supabase's global edge network.
 
 ## API Documentation
 

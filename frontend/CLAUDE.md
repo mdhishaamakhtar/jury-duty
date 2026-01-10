@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a SvelteKit frontend application for a content labeling platform. The app allows multiple users to view content and label it by choosing between two options. It uses:
+This is a SvelteKit frontend application for the Jury Duty data labeling engine. The app allows multiple users to view content and label it by choosing between options. It uses:
 
 - SvelteKit 2.x with Svelte 5 for the framework
 - TypeScript for type safety
