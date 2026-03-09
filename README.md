@@ -1,5 +1,5 @@
-<p align="left">
-  <img src="./frontend/static/og-image.svg" alt="Jury Duty Logo" width="220">
+<p align="center">
+  <img src="./frontend/static/og-image.svg" alt="Jury Duty Logo" width="600">
 </p>
 
 ## Jury Duty
