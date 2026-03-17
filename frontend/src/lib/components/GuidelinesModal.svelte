@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { LABELING_GUIDELINES } from '$lib/config/guidelines';
-	import { fade, scale } from 'svelte/transition';
-	import { quintOut } from 'svelte/easing';
 	import FormattedText from './FormattedText.svelte';
 
 	interface Props {
@@ -11,7 +9,7 @@
 
 	let { open = false, onClose }: Props = $props();
 
-	// Prevent body scroll when modal is open (iOS-safe: position:fixed instead of overflow:hidden)
+	// iOS-safe scroll lock: position:fixed instead of overflow:hidden
 	let savedScrollY = 0;
 	$effect(() => {
 		if (open) {
@@ -20,10 +18,14 @@
 			document.body.style.top = `-${savedScrollY}px`;
 			document.body.style.width = '100%';
 		} else {
-			document.body.style.position = '';
-			document.body.style.top = '';
-			document.body.style.width = '';
-			window.scrollTo(0, savedScrollY);
+			// Delay restore until after CSS close animation (200ms) completes
+			const t = setTimeout(() => {
+				document.body.style.position = '';
+				document.body.style.top = '';
+				document.body.style.width = '';
+				window.scrollTo(0, savedScrollY);
+			}, 200);
+			return () => clearTimeout(t);
 		}
 
 		return () => {
@@ -40,7 +42,7 @@
 	}
 
 	function handleEscapeKey(event: KeyboardEvent) {
-		if (event.key === 'Escape') {
+		if (open && event.key === 'Escape') {
 			onClose();
 		}
 	}
@@ -48,155 +50,170 @@
 
 <svelte:window onkeydown={handleEscapeKey} />
 
-{#if open}
+<!--
+  Always in DOM — never conditionally rendered.
+  {#if open} + Svelte transitions force DOM removal which flushes Safari's
+  compositor and causes a black frame. CSS opacity/visibility transitions
+  on a persistent node avoid this entirely.
+-->
+<div
+	class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 sm:backdrop-blur-sm"
+	style="
+		transform: translateZ(0);
+		-webkit-transform: translateZ(0);
+		transition: opacity 200ms ease, visibility 200ms ease;
+		opacity: {open ? 1 : 0};
+		visibility: {open ? 'visible' : 'hidden'};
+		pointer-events: {open ? 'auto' : 'none'};
+	"
+	onclick={handleBackdropClick}
+	role="presentation"
+	aria-hidden={!open}
+>
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 sm:backdrop-blur-sm"
-		style="transform: translateZ(0); -webkit-transform: translateZ(0); will-change: opacity;"
-		onclick={handleBackdropClick}
-		role="presentation"
-		transition:fade={{ duration: 200 }}
+		class="relative my-2 flex max-h-[calc(100dvh-1rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:my-8 sm:max-h-[calc(100dvh-4rem)]"
+		style="
+			transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease;
+			transform: {open ? 'scale(1) translateZ(0)' : 'scale(0.94) translateZ(0)'};
+			opacity: {open ? 1 : 0};
+		"
+		role="dialog"
+		tabindex="-1"
+		aria-modal="true"
+		aria-labelledby="guidelines-title"
 	>
+		<!-- Header -->
 		<div
-			class="relative my-2 flex max-h-[calc(100dvh-1rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:my-8 sm:max-h-[calc(100dvh-4rem)]"
-			role="dialog"
-			tabindex="-1"
-			aria-modal="true"
-			aria-labelledby="guidelines-title"
-			transition:scale={{ duration: 320, start: 0.94, easing: quintOut }}
+			class="flex flex-shrink-0 items-center justify-between border-b border-gray-200 bg-rose-50 px-6 py-5"
 		>
-			<!-- Enhanced Header -->
-			<div
-				class="flex flex-shrink-0 items-center justify-between border-b border-gray-200 bg-rose-50 px-6 py-5"
-			>
-				<div class="flex items-center space-x-3">
-					<div class="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
-						<svg
-							class="h-4 w-4 text-gray-600"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-							/>
-						</svg>
-					</div>
-					<div>
-						<h2 id="guidelines-title" class="text-xl font-light text-gray-800">
-							{LABELING_GUIDELINES.title}
-						</h2>
-						<p class="text-sm font-light text-gray-500">
-							Essential guidelines for accurate labeling
-						</p>
-					</div>
-				</div>
-				<button
-					class="btn btn-icon hover:bg-white/80"
-					onclick={onClose}
-					aria-label="Close guidelines"
-				>
-					<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<div class="flex items-center space-x-3">
+				<div class="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
+					<svg
+						class="h-4 w-4 text-gray-600"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
+							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
 						/>
 					</svg>
-				</button>
-			</div>
-
-			<!-- Enhanced Content -->
-			<div class="flex-1 overflow-y-auto">
-				<div class="px-6 py-8">
-					<div class="post-text prose prose-gray max-w-none space-y-6 font-normal">
-						<FormattedText text={LABELING_GUIDELINES.content} />
-					</div>
 				</div>
+				<div>
+					<h2 id="guidelines-title" class="text-xl font-light text-gray-800">
+						{LABELING_GUIDELINES.title}
+					</h2>
+					<p class="text-sm font-light text-gray-500">
+						Essential guidelines for accurate labeling
+					</p>
+				</div>
+			</div>
+			<button
+				class="btn btn-icon hover:bg-white/80"
+				onclick={onClose}
+				aria-label="Close guidelines"
+			>
+				<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M6 18L18 6M6 6l12 12"
+					/>
+				</svg>
+			</button>
+		</div>
 
-				<!-- Quick reference card -->
-				<div class="mx-6 mb-6 rounded-xl border border-gray-200 bg-rose-50 p-4">
-					<div class="mb-3 flex items-center space-x-2">
-						<svg
-							class="h-4 w-4 text-rose-600"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-						<h4 class="text-sm font-medium text-gray-800">Quick Reference</h4>
-					</div>
-					<div class="grid grid-cols-2 gap-4 text-xs">
-						<div class="space-y-1">
-							<div class="flex items-center space-x-2">
-								<span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500">
-									<svg
-										class="h-2.5 w-2.5 text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="3"
-											d="M5 13l4 4L19 7"
-										/>
-									</svg>
-								</span>
-								<span class="text-gray-600">Choose TRUE when content meets criteria</span>
-							</div>
-						</div>
-						<div class="space-y-1">
-							<div class="flex items-center space-x-2">
-								<span class="flex h-4 w-4 items-center justify-center rounded-full bg-rose-500">
-									<svg
-										class="h-2.5 w-2.5 text-white"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="3"
-											d="M6 18L18 6M6 6l12 12"
-										/>
-									</svg>
-								</span>
-								<span class="text-gray-600">Choose FALSE when content doesn't meet criteria</span>
-							</div>
-						</div>
-					</div>
+		<!-- Content -->
+		<div class="flex-1 overflow-y-auto">
+			<div class="px-6 py-8">
+				<div class="post-text prose prose-gray max-w-none space-y-6 font-normal">
+					<FormattedText text={LABELING_GUIDELINES.content} />
 				</div>
 			</div>
 
-			<!-- Enhanced Footer -->
-			<div class="flex-shrink-0 border-t border-gray-200 bg-gray-50/50 px-6 py-4">
-				<div class="flex items-center justify-between">
-					<div class="flex items-center space-x-2 text-xs text-gray-500">
-						<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-						<span>Keep these guidelines in mind while labeling</span>
+			<!-- Quick reference card -->
+			<div class="mx-6 mb-6 rounded-xl border border-gray-200 bg-rose-50 p-4">
+				<div class="mb-3 flex items-center space-x-2">
+					<svg
+						class="h-4 w-4 text-rose-600"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<h4 class="text-sm font-medium text-gray-800">Quick Reference</h4>
+				</div>
+				<div class="grid grid-cols-2 gap-4 text-xs">
+					<div class="space-y-1">
+						<div class="flex items-center space-x-2">
+							<span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500">
+								<svg
+									class="h-2.5 w-2.5 text-white"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="3"
+										d="M5 13l4 4L19 7"
+									/>
+								</svg>
+							</span>
+							<span class="text-gray-600">Choose TRUE when content meets criteria</span>
+						</div>
 					</div>
-					<button class="btn btn-primary btn-lg" onclick={onClose}> Ready to Label </button>
+					<div class="space-y-1">
+						<div class="flex items-center space-x-2">
+							<span class="flex h-4 w-4 items-center justify-center rounded-full bg-rose-500">
+								<svg
+									class="h-2.5 w-2.5 text-white"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="3"
+										d="M6 18L18 6M6 6l12 12"
+									/>
+								</svg>
+							</span>
+							<span class="text-gray-600">Choose FALSE when content doesn't meet criteria</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+
+		<!-- Footer -->
+		<div class="flex-shrink-0 border-t border-gray-200 bg-gray-50/50 px-6 py-4">
+			<div class="flex items-center justify-between">
+				<div class="flex items-center space-x-2 text-xs text-gray-500">
+					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+					<span>Keep these guidelines in mind while labeling</span>
+				</div>
+				<button class="btn btn-primary btn-lg" onclick={onClose}> Ready to Label </button>
+			</div>
+		</div>
 	</div>
-{/if}
+</div>
