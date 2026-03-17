@@ -1,72 +1,64 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#fdf2f8;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#fff7ed;stop-opacity:1" />
-    </linearGradient>
     <style>
-      /* Embedded Inter (400) for reliable OG rendering */
-      @font-face {
-        font-family: 'InterEmbed';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url(data:font/woff2;base64,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) format('woff2');
-      }
+      @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400&amp;family=IBM+Plex+Sans:wght@400;600&amp;display=swap');
 
-      .title { 
-        font-family: 'InterEmbed', 'Inter', 'Times New Roman', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-        font-weight: 400; 
-        letter-spacing: -0.025em; 
-        fill: #1f2937; 
+      .title {
+        font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        fill: #1c1917;
       }
-      .subtitle { 
-        font-family: 'InterEmbed', 'Inter', 'Times New Roman', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-        font-weight: 400; 
-        fill: #6b7280; 
+      .badge {
+        font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        fill: #e11d48;
+      }
+      .subtitle {
+        font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 400;
+        fill: #a8a29e;
       }
     </style>
   </defs>
-  
+
   <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  
-  <!-- Central Content Container -->
+  <rect width="1200" height="630" fill="#f1f0ee"/>
+
+  <!-- Central Content -->
   <g transform="translate(600, 315)">
-    
-    <!-- Ballot Box Logo (scaled up) -->
-    <g transform="translate(-100, -160) scale(5.75)">
+
+    <!-- Ballot Box Logo -->
+    <g transform="translate(-100, -210) scale(6.0)">
       <!-- Ballot Box Base -->
       <rect x="4" y="12" width="24" height="16" rx="2" ry="2" fill="#fecaca" stroke="#fca5a5" stroke-width="1"/>
-      
       <!-- Ballot Box Slot -->
       <rect x="7" y="9" width="18" height="4" rx="2" ry="2" fill="#fca5a5"/>
       <rect x="8" y="10" width="16" height="2" fill="#f87171"/>
-      
       <!-- Ballot Paper -->
       <rect x="11" y="4" width="10" height="12" rx="1" ry="1" fill="#fef7f7" stroke="#fed7d7" stroke-width="1"/>
-      
       <!-- Ballot Options -->
       <circle cx="13.5" cy="7" r="1" fill="none" stroke="#d946ef" stroke-width="0.8"/>
       <circle cx="13.5" cy="10" r="1" fill="none" stroke="#d946ef" stroke-width="0.8"/>
-      
       <!-- Selected Option -->
       <circle cx="13.5" cy="7" r="0.5" fill="#10b981"/>
-      
       <!-- Option Labels -->
       <rect x="16" y="6.5" width="3" height="1" fill="#fbcfe8"/>
       <rect x="16" y="9.5" width="2.5" height="1" fill="#fbcfe8"/>
-      
       <!-- Motion Lines -->
       <path d="M 14 14 L 16 16" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
       <path d="M 16 14 L 18 16" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
     </g>
-    
-    <!-- Title -->
-    <text x="0" y="100" text-anchor="middle" class="title" font-size="96">jury duty</text>
-    
+
+    <!-- "jury duty" wordmark -->
+    <text x="0" y="100" text-anchor="middle" class="title" font-size="104">jury duty</text>
+
+    <!-- "CONTENT LABELING SYSTEM" badge -->
+    <text x="0" y="154" text-anchor="middle" class="badge" font-size="24">CONTENT LABELING SYSTEM</text>
+
     <!-- Subtitle -->
-    <text x="0" y="160" text-anchor="middle" class="subtitle" font-size="32">Help improve AI through content labeling</text>
-    
+    <text x="0" y="248" text-anchor="middle" class="subtitle" font-size="30">Help improve AI through content labeling</text>
+
   </g>
 </svg>
