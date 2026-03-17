@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { LABELING_GUIDELINES } from '$lib/config/guidelines';
 	import { fade, scale } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 	import FormattedText from './FormattedText.svelte';
 
 	interface Props {
@@ -43,14 +44,16 @@
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm"
 		onclick={handleBackdropClick}
-		role="dialog"
-		aria-modal="true"
-		aria-labelledby="guidelines-title"
-		transition:fade={{ duration: 300 }}
+		role="presentation"
+		transition:fade={{ duration: 200 }}
 	>
 		<div
 			class="relative my-8 flex max-h-[calc(100vh-4rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
-			transition:scale={{ duration: 300, start: 0.92 }}
+			role="dialog"
+			tabindex="-1"
+			aria-modal="true"
+			aria-labelledby="guidelines-title"
+			transition:scale={{ duration: 320, start: 0.94, easing: quintOut }}
 		>
 			<!-- Enhanced Header -->
 			<div

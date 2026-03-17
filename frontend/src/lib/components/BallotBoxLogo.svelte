@@ -47,8 +47,8 @@
 	/>
 
 	<!-- Ballot Options -->
-	<circle cx="13.5" cy="7" r="1" fill="none" stroke="#d946ef" stroke-width="0.8" />
-	<circle cx="13.5" cy="10" r="1" fill="none" stroke="#d946ef" stroke-width="0.8" />
+	<circle cx="13.5" cy="7" r="1" fill="none" stroke="#fca5a5" stroke-width="0.8" />
+	<circle cx="13.5" cy="10" r="1" fill="none" stroke="#fca5a5" stroke-width="0.8" />
 
 	<!-- Selected Option -->
 	<circle cx="13.5" cy="7" r="0.5" fill="#10b981" />

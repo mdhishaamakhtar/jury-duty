@@ -3,10 +3,15 @@
 :root {
 	--default-font-family: var(--font-sans);
 	--post-font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+	/* Easing system — refined curves that feel natural, not mechanical */
+	--ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+	--ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme {
-	--font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 @layer base {
@@ -32,6 +37,14 @@
 		font-family: 'Source Code Pro', monospace;
 	}
 
+	/* Wordmark — "jury duty" as a typeset brand mark */
+	.wordmark {
+		font-family: var(--post-font-family); /* Source Serif 4 */
+		font-style: italic;
+		font-weight: 400;
+		letter-spacing: -0.02em;
+	}
+
 	/* =================================
 	   UNIFIED BUTTON DESIGN SYSTEM
 	   ================================= */
@@ -39,17 +52,24 @@
 	/* Base button styles - consistent foundation for all buttons */
 	.btn {
 		@apply inline-flex items-center justify-center;
-		@apply font-medium transition-all duration-200;
+		@apply font-medium;
 		@apply border border-transparent;
 		@apply active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
 		@apply focus:ring-2 focus:ring-offset-2 focus:outline-none;
-		@apply rounded-xl; /* Unified border radius */
-		@apply text-center; /* Ensure text alignment consistency */
+		@apply rounded-xl;
+		@apply text-center;
 		position: relative;
 		overflow: hidden;
+		transition:
+			color 150ms var(--ease-out-quart),
+			background-color 150ms var(--ease-out-quart),
+			border-color 150ms var(--ease-out-quart),
+			box-shadow 150ms var(--ease-out-quart),
+			transform 100ms var(--ease-out-quart),
+			opacity 150ms var(--ease-out-quart);
 	}
 
-	/* Button hover ripple effect */
+	/* Button click ripple */
 	.btn::before {
 		content: '';
 		position: absolute;
@@ -60,18 +80,17 @@
 		background: rgba(255, 255, 255, 0.2);
 		border-radius: 50%;
 		transition:
-			width 0.4s ease-out,
-			height 0.4s ease-out,
-			top 0.4s ease-out,
-			left 0.4s ease-out;
+			width 0.45s var(--ease-out-expo),
+			height 0.45s var(--ease-out-expo),
+			opacity 0.45s var(--ease-out-expo);
 		transform: translate(-50%, -50%);
 		pointer-events: none;
 		z-index: 0;
 	}
 
 	.btn:active::before {
-		width: 200px;
-		height: 200px;
+		width: 220px;
+		height: 220px;
 	}
 
 	/* Ensure button content stays above ripple effect */
@@ -84,22 +103,18 @@
 	   BUTTON SIZE VARIANTS
 	   ================================= */
 
-	/* Small button size */
 	.btn-sm {
 		@apply px-3 py-2 text-sm;
 	}
 
-	/* Medium button size (default) */
 	.btn-md {
 		@apply px-4 py-2.5 text-sm;
 	}
 
-	/* Large button size */
 	.btn-lg {
 		@apply px-6 py-3 text-base;
 	}
 
-	/* Extra large button size */
 	.btn-xl {
 		@apply px-8 py-4 text-lg;
 	}
@@ -108,108 +123,111 @@
 	   BUTTON STYLE VARIANTS
 	   ================================= */
 
-	/* Primary button - main CTAs (Sign in with Google, Start Labeling) */
 	.btn-primary {
-		@apply border-rose-200 bg-rose-50 text-gray-700;
-		@apply hover:border-rose-300 hover:bg-rose-100 hover:shadow-md hover:shadow-rose-100;
-		@apply focus:ring-rose-300;
+		@apply border-rose-700 bg-rose-600 text-white;
+		@apply hover:border-rose-800 hover:bg-rose-700 hover:shadow-md hover:shadow-rose-200;
+		@apply focus:ring-rose-400;
 	}
 
-	/* Secondary button - utility actions (Guidelines, Sign out) */
 	.btn-secondary {
 		@apply border-gray-200 bg-white/80 text-gray-600;
 		@apply hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 hover:shadow-sm;
 		@apply focus:ring-gray-300;
 	}
 
-	/* Success button - TRUE labeling */
 	.btn-success {
 		@apply border-emerald-200 bg-emerald-50 text-emerald-700;
 		@apply hover:border-emerald-300 hover:bg-emerald-100 hover:shadow-md hover:shadow-emerald-100;
 		@apply focus:ring-emerald-300;
 	}
 
-	/* Danger button - FALSE labeling */
 	.btn-danger {
 		@apply border-rose-200 bg-rose-50 text-rose-700;
 		@apply hover:border-rose-300 hover:bg-rose-100 hover:shadow-md hover:shadow-rose-100;
 		@apply focus:ring-rose-300;
 	}
 
-	/* Ghost button - minimal actions */
 	.btn-ghost {
 		@apply border-transparent bg-transparent text-gray-500;
 		@apply hover:border-gray-200 hover:bg-gray-50 hover:text-gray-700;
 		@apply focus:ring-gray-300;
 	}
 
-	/* Icon button - close buttons, minimal icons */
 	.btn-icon {
 		@apply border-transparent bg-transparent p-2 text-gray-400;
 		@apply hover:bg-gray-100 hover:text-gray-600;
 		@apply focus:ring-gray-300;
-		@apply rounded-lg; /* Slightly smaller radius for icon buttons */
+		@apply rounded-lg;
 	}
 
 	/* =================================
 	   SPECIAL BUTTON VARIANTS
 	   ================================= */
 
-	/* Large labeling buttons with special styling */
+	/* Large labeling buttons */
 	.btn-label {
 		@apply rounded-2xl p-6 lg:p-8;
-		@apply transform hover:scale-105 focus:scale-105;
-		@apply transition-all duration-200;
 		@apply flex flex-col items-center justify-center;
 		@apply min-h-[8rem] lg:min-h-[10rem];
+		transition:
+			color 150ms var(--ease-out-quart),
+			background-color 150ms var(--ease-out-quart),
+			border-color 150ms var(--ease-out-quart),
+			box-shadow 200ms var(--ease-out-quart),
+			transform 200ms var(--ease-out-quint),
+			opacity 150ms var(--ease-out-quart);
+	}
+
+	.btn-label:hover {
+		transform: scale(1.03) translateY(-1px);
+	}
+
+	.btn-label:focus {
+		transform: scale(1.03);
 	}
 
 	/* =================================
 	   BUTTON STATE MODIFIERS
 	   ================================= */
 
-	/* Loading state */
 	.btn[disabled] {
 		@apply cursor-not-allowed opacity-50;
 	}
 
-	/* Full width modifier */
 	.btn-full {
 		@apply w-full;
 	}
 
-	/* Pill shape modifier (for special cases) */
 	.btn-pill {
 		@apply rounded-full;
 	}
 
-	/* Loading state improvements */
+	/* Loading state */
 	.loading.loading-spinner {
 		animation: spin 1s linear infinite;
 	}
 
-	/* Custom selection colors for better brand consistency */
+	/* Custom selection */
 	::selection {
 		background: rgba(251, 113, 133, 0.2);
 		color: rgb(75, 85, 99);
 	}
 
-	/* Smooth scroll behavior */
 	html {
 		scroll-behavior: smooth;
 	}
 
-	/* Enhanced focus states for accessibility */
+	/* Focus states */
 	.btn:focus-visible,
 	button:focus-visible {
-		outline: 2px solid rgb(59, 130, 246);
+		outline: 2px solid rgb(244, 63, 94);
 		outline-offset: 2px;
 	}
 
-	/* Mobile touch improvements */
+	/* Mobile touch targets */
 	@media (max-width: 1023px) {
 		.btn {
-			@apply min-h-[2.75rem]; /* Better touch targets */
+			@apply min-h-[2.75rem];
 		}
 
 		.btn-md {
@@ -220,25 +238,27 @@
 			@apply min-h-[3.5rem];
 		}
 
-		/* Improved mobile spacing for button content */
 		.btn svg {
 			@apply flex-shrink-0;
 		}
 	}
 
-	/* Card hover effects */
+	/* Card hover lift */
 	.hover-lift {
 		transition:
-			transform 0.2s ease-in-out,
-			box-shadow 0.2s ease-in-out;
+			transform 200ms var(--ease-out-quint),
+			box-shadow 200ms var(--ease-out-quint);
 	}
 
 	.hover-lift:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.09);
 	}
 
-	/* Pulse animation for status indicators */
+	/* =================================
+	   ANIMATION KEYFRAMES
+	   ================================= */
+
 	@keyframes pulse-soft {
 		0%,
 		100% {
@@ -249,7 +269,142 @@
 		}
 	}
 
+	/* Fade up — content entrance, login stagger */
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Fade in — simple opacity reveal */
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	/* Card entrance — subtle scale + lift */
+	@keyframes card-enter {
+		from {
+			opacity: 0;
+			transform: scale(0.98) translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1) translateY(0);
+		}
+	}
+
+	/* Drop in — ballot card falling into box */
+	@keyframes drop-in {
+		0% {
+			opacity: 0;
+			transform: translateY(-56px);
+		}
+		65% {
+			opacity: 1;
+			transform: translateY(3px);
+		}
+		82% {
+			transform: translateY(-1px);
+		}
+		100% {
+			transform: translateY(0);
+		}
+	}
+
+	/* Scale in — circle reveal in BallotBoxLoader */
+	@keyframes scale-in {
+		from {
+			opacity: 0;
+			transform: scale(0.5);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	/* Slide up — text reveal */
+	@keyframes slide-up {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Slide down — error alert entrance */
+	@keyframes slide-down {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* =================================
+	   ANIMATION UTILITY CLASSES
+	   ================================= */
+
 	.animate-pulse-soft {
 		animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+
+	.animate-fade-up {
+		animation: fade-up 0.5s var(--ease-out-quint) both;
+	}
+
+	.animate-fade-in {
+		animation: fade-in 0.3s var(--ease-out-quart) both;
+	}
+
+	.animate-card-enter {
+		animation: card-enter 0.4s var(--ease-out-quint) both;
+	}
+
+	.animate-drop-in {
+		animation: drop-in 0.55s var(--ease-out-quint) both;
+	}
+
+	.animate-scale-in {
+		animation: scale-in 0.4s var(--ease-out-expo) both;
+	}
+
+	.animate-slide-up {
+		animation: slide-up 0.45s var(--ease-out-quint) both;
+	}
+
+	.animate-slide-down {
+		animation: slide-down 0.3s var(--ease-out-quint) both;
+	}
+}
+
+/* =================================
+   REDUCED MOTION
+   Always last — must override everything
+   ================================= */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
 	}
 }
