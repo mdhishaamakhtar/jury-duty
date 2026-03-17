@@ -70,7 +70,7 @@
 					onclick={() => handleLabelSubmit('TRUE')}
 				>
 					<div
-						class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/90 transition-transform group-active:scale-90"
+						class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 transition-transform group-active:scale-90"
 					>
 						<svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
@@ -93,7 +93,7 @@
 					onclick={() => handleLabelSubmit('FALSE')}
 				>
 					<div
-						class="flex h-5 w-5 items-center justify-center rounded-full bg-rose-500/90 transition-transform group-active:scale-90"
+						class="flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 transition-transform group-active:scale-90"
 					>
 						<svg class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
@@ -121,7 +121,7 @@
 					onclick={() => handleLabelSubmit('TRUE')}
 				>
 					<div
-						class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/90 shadow-lg transition-[transform,box-shadow] duration-200 group-hover:scale-110 group-hover:shadow-emerald-200 group-active:scale-95"
+						class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 shadow-md transition-[transform,box-shadow] duration-200 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-emerald-300 group-active:scale-90"
 					>
 						<svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path
@@ -146,7 +146,7 @@
 					onclick={() => handleLabelSubmit('FALSE')}
 				>
 					<div
-						class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-500/90 shadow-lg transition-[transform,box-shadow] duration-200 group-hover:scale-110 group-hover:shadow-rose-200 group-active:scale-95"
+						class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-500 shadow-md transition-[transform,box-shadow] duration-200 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-rose-300 group-active:scale-90"
 					>
 						<svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path

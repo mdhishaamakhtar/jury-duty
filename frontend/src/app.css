@@ -40,7 +40,6 @@
 	/* Wordmark — "jury duty" as a typeset brand mark */
 	.wordmark {
 		font-family: var(--post-font-family); /* Source Serif 4 */
-		font-style: italic;
 		font-weight: 400;
 		letter-spacing: -0.02em;
 	}
@@ -77,7 +76,7 @@
 		left: 50%;
 		width: 0;
 		height: 0;
-		background: rgba(255, 255, 255, 0.2);
+		background: rgba(0, 0, 0, 0.06);
 		border-radius: 50%;
 		transition:
 			width 0.45s var(--ease-out-expo),
@@ -136,15 +135,15 @@
 	}
 
 	.btn-success {
-		@apply border-emerald-200 bg-emerald-50 text-emerald-700;
-		@apply hover:border-emerald-300 hover:bg-emerald-100 hover:shadow-md hover:shadow-emerald-100;
-		@apply focus:ring-emerald-300;
+		@apply border-emerald-300 bg-emerald-50 text-emerald-700;
+		@apply hover:border-emerald-400 hover:bg-emerald-100 hover:shadow-lg hover:shadow-emerald-100;
+		@apply focus:ring-emerald-400;
 	}
 
 	.btn-danger {
-		@apply border-rose-200 bg-rose-50 text-rose-700;
-		@apply hover:border-rose-300 hover:bg-rose-100 hover:shadow-md hover:shadow-rose-100;
-		@apply focus:ring-rose-300;
+		@apply border-rose-300 bg-rose-50 text-rose-700;
+		@apply hover:border-rose-400 hover:bg-rose-100 hover:shadow-lg hover:shadow-rose-100;
+		@apply focus:ring-rose-400;
 	}
 
 	.btn-ghost {
@@ -184,6 +183,18 @@
 
 	.btn-label:focus {
 		transform: scale(1.03);
+	}
+
+	/* Gentle press — overrides .btn active:scale-95 (1.03→0.95 is too jarring) */
+	.btn-label:active {
+		transform: scale(0.97) translateY(2px);
+		transition-duration: 80ms;
+	}
+
+	/* Larger ripple to fill the big label buttons */
+	.btn-label:active::before {
+		width: 700px;
+		height: 700px;
 	}
 
 	/* =================================
