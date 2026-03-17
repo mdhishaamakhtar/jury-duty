@@ -11,17 +11,25 @@
 
 	let { open = false, onClose }: Props = $props();
 
-	// Prevent body scroll when modal is open
+	// Prevent body scroll when modal is open (iOS-safe: position:fixed instead of overflow:hidden)
+	let savedScrollY = 0;
 	$effect(() => {
 		if (open) {
-			document.body.style.overflow = 'hidden';
+			savedScrollY = window.scrollY;
+			document.body.style.position = 'fixed';
+			document.body.style.top = `-${savedScrollY}px`;
+			document.body.style.width = '100%';
 		} else {
-			document.body.style.overflow = '';
+			document.body.style.position = '';
+			document.body.style.top = '';
+			document.body.style.width = '';
+			window.scrollTo(0, savedScrollY);
 		}
 
-		// Cleanup on component destroy
 		return () => {
-			document.body.style.overflow = '';
+			document.body.style.position = '';
+			document.body.style.top = '';
+			document.body.style.width = '';
 		};
 	});
 
@@ -42,7 +50,8 @@
 
 {#if open}
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm"
+		class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 sm:backdrop-blur-sm"
+		style="transform: translateZ(0); -webkit-transform: translateZ(0); will-change: opacity;"
 		onclick={handleBackdropClick}
 		role="presentation"
 		transition:fade={{ duration: 200 }}
