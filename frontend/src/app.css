@@ -389,7 +389,7 @@
 	}
 
 	.animate-drop-in {
-		animation: drop-in 0.55s var(--ease-out-quint) both;
+		animation: drop-in 0.52s ease-out both;
 	}
 
 	.animate-scale-in {
