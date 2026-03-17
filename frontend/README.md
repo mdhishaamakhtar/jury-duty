@@ -16,6 +16,7 @@ A responsive, high-performance web interface built with SvelteKit 5 and Tailwind
 ## Developing
 
 1. **Install dependencies**:
+
    ```sh
    npm install
    ```
