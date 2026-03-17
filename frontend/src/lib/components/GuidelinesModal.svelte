@@ -48,7 +48,7 @@
 		transition:fade={{ duration: 200 }}
 	>
 		<div
-			class="relative my-8 flex max-h-[calc(100vh-4rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+			class="relative my-2 flex max-h-[calc(100dvh-1rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:my-8 sm:max-h-[calc(100dvh-4rem)]"
 			role="dialog"
 			tabindex="-1"
 			aria-modal="true"

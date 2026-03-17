@@ -18,11 +18,13 @@
 	html {
 		font-family: var(--default-font-family);
 		font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+		background-color: #fafaf9;
 	}
 
 	body {
 		font-weight: 400;
 		line-height: 1.6;
+		background-color: #fafaf9;
 	}
 }
 
