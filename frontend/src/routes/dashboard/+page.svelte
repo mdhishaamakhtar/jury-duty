@@ -211,13 +211,13 @@
 			<!-- Enhanced Error Alert -->
 			{#if contentState.error}
 				<div
-					class="animate-slide-down mb-8 rounded-2xl border border-red-200 bg-red-50 p-6 shadow-sm"
+					class="animate-slide-down mb-8 rounded-2xl border border-rose-200 bg-rose-50 p-6 shadow-sm"
 				>
 					<div class="flex items-start space-x-4">
 						<div class="flex-shrink-0">
-							<div class="flex h-8 w-8 items-center justify-center rounded-full bg-red-100">
+							<div class="flex h-8 w-8 items-center justify-center rounded-full bg-rose-100">
 								<svg
-									class="h-5 w-5 text-red-600"
+									class="h-5 w-5 text-rose-600"
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor"
@@ -232,17 +232,17 @@
 							</div>
 						</div>
 						<div class="min-w-0 flex-1">
-							<h3 class="mb-1 text-sm font-medium text-red-800">Something went wrong</h3>
-							<p class="mb-3 text-sm text-red-700">{contentState.error}</p>
+							<h3 class="mb-1 text-sm font-medium text-rose-800">Something went wrong</h3>
+							<p class="mb-3 text-sm text-rose-700">{contentState.error}</p>
 							<div class="flex items-center space-x-3">
 								<button
-									class="btn btn-ghost btn-sm text-red-700 hover:bg-red-50 hover:text-red-800"
+									class="btn btn-ghost btn-sm text-rose-700 hover:bg-rose-50 hover:text-rose-800"
 									onclick={handleGetNextContent}
 								>
 									Try Again
 								</button>
 								<button
-									class="btn btn-ghost btn-sm text-red-600 hover:text-red-800"
+									class="btn btn-ghost btn-sm text-rose-600 hover:text-rose-800"
 									onclick={handleDismissError}
 								>
 									Dismiss
@@ -250,7 +250,7 @@
 							</div>
 						</div>
 						<button
-							class="btn btn-icon text-red-400 hover:text-red-600"
+							class="btn btn-icon text-rose-400 hover:text-rose-600"
 							aria-label="Dismiss error"
 							onclick={handleDismissError}
 						>

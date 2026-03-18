@@ -83,39 +83,11 @@
 		aria-labelledby="guidelines-title"
 	>
 		<!-- Header -->
-		<div
-			class="flex flex-shrink-0 items-center justify-between border-b border-gray-200 bg-rose-50 px-6 py-5"
-		>
-			<div class="flex items-center space-x-3">
-				<div class="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm">
-					<svg
-						class="h-4 w-4 text-gray-600"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						/>
-					</svg>
-				</div>
-				<div>
-					<h2 id="guidelines-title" class="text-xl font-light text-gray-800">
-						{LABELING_GUIDELINES.title}
-					</h2>
-					<p class="text-sm font-light text-gray-500">
-						Essential guidelines for accurate labeling
-					</p>
-				</div>
-			</div>
-			<button
-				class="btn btn-icon hover:bg-white/80"
-				onclick={onClose}
-				aria-label="Close guidelines"
-			>
+		<div class="flex flex-shrink-0 items-center justify-between border-b border-gray-200 px-6 py-5">
+			<h2 id="guidelines-title" class="text-xl font-light text-gray-800">
+				{LABELING_GUIDELINES.title}
+			</h2>
+			<button class="btn btn-icon" onclick={onClose} aria-label="Close guidelines">
 				<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 					<path
 						stroke-linecap="round"
@@ -134,86 +106,11 @@
 					<FormattedText text={LABELING_GUIDELINES.content} />
 				</div>
 			</div>
-
-			<!-- Quick reference card -->
-			<div class="mx-6 mb-6 rounded-xl border border-gray-200 bg-rose-50 p-4">
-				<div class="mb-3 flex items-center space-x-2">
-					<svg
-						class="h-4 w-4 text-rose-600"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<h4 class="text-sm font-medium text-gray-800">Quick Reference</h4>
-				</div>
-				<div class="grid grid-cols-2 gap-4 text-xs">
-					<div class="space-y-1">
-						<div class="flex items-center space-x-2">
-							<span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500">
-								<svg
-									class="h-2.5 w-2.5 text-white"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="3"
-										d="M5 13l4 4L19 7"
-									/>
-								</svg>
-							</span>
-							<span class="text-gray-600">Choose TRUE when content meets criteria</span>
-						</div>
-					</div>
-					<div class="space-y-1">
-						<div class="flex items-center space-x-2">
-							<span class="flex h-4 w-4 items-center justify-center rounded-full bg-rose-500">
-								<svg
-									class="h-2.5 w-2.5 text-white"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="3"
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-							</span>
-							<span class="text-gray-600">Choose FALSE when content doesn't meet criteria</span>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 
 		<!-- Footer -->
-		<div class="flex-shrink-0 border-t border-gray-200 bg-gray-50/50 px-6 py-4">
-			<div class="flex items-center justify-between">
-				<div class="flex items-center space-x-2 text-xs text-gray-500">
-					<svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<span>Keep these guidelines in mind while labeling</span>
-				</div>
-				<button class="btn btn-primary btn-lg" onclick={onClose}> Ready to Label </button>
-			</div>
+		<div class="flex flex-shrink-0 justify-end border-t border-gray-200 px-6 py-4">
+			<button class="btn btn-primary btn-lg" onclick={onClose}>Ready to Label</button>
 		</div>
 	</div>
 </div>
