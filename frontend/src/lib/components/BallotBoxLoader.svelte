@@ -94,11 +94,11 @@
 			<div class="animate-slide-up space-y-3 text-center" style="animation-delay: 0.22s;">
 				<h2 class="text-4xl font-light text-stone-700">Decision Recorded</h2>
 				<div
-					class="inline-flex items-center rounded-full border-2 px-6 py-3"
+					class="inline-flex items-center rounded-full border px-6 py-3"
 					class:bg-emerald-50={isTrue}
-					class:border-emerald-200={isTrue}
+					class:border-emerald-300={isTrue}
 					class:bg-rose-50={!isTrue}
-					class:border-rose-200={!isTrue}
+					class:border-rose-300={!isTrue}
 				>
 					<div
 						class="text-3xl font-medium"
@@ -139,7 +139,7 @@
 				style="top: 26px; animation-delay: 0.2s;"
 			>
 				<div
-					class="flex h-11 w-24 items-center justify-center rounded-lg border-2 text-base font-semibold shadow-md"
+					class="flex h-11 w-24 items-center justify-center rounded-lg border text-base font-semibold shadow-md"
 					class:bg-emerald-50={isTrue}
 					class:border-emerald-300={isTrue}
 					class:text-emerald-700={isTrue}

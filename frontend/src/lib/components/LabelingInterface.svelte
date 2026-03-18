@@ -112,8 +112,8 @@
 		</div>
 
 		<!-- Desktop layout -->
-		<div class="mx-auto hidden max-w-4xl lg:block">
-			<div class="mx-auto grid max-w-2xl grid-cols-2 gap-8">
+		<div class="hidden lg:block">
+			<div class="grid grid-cols-2 gap-8">
 				<button
 					class="btn btn-success btn-label group text-center"
 					class:opacity-50={contentState.submittingLabel}
