@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <img src="./frontend/static/og-image.png" alt="Jury Duty Preview">
+  <img src="./frontend/static/og-image.svg" alt="Jury Duty Preview">
 </p>
 
 ## Jury Duty
