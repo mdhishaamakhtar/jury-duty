@@ -1,5 +1,7 @@
+<!-- markdownlint-disable MD033 -->
+
 <p align="center">
-  <img src="./frontend/static/og-image.svg" alt="Jury Duty Logo">
+  <img src="./frontend/static/og-image.svg" alt="Jury Duty Preview">
 </p>
 
 ## Jury Duty
