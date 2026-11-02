@@ -1,13 +1,9 @@
 <script lang="ts">
+	import '@fontsource-variable/literata';
+	import '@fontsource-variable/figtree';
 	import '../app.css';
-	import { onMount } from 'svelte';
-	import { authStore } from '$lib/stores/auth';
 
 	let { children } = $props();
-
-	onMount(() => {
-		authStore.initialize();
-	});
 </script>
 
 {@render children()}
