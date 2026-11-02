@@ -25,13 +25,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 };
 
-export const handleError: HandleServerError = ({ error, event, status }) => {
+export const handleError: HandleServerError = ({ error, event }) => {
+	const { status, message } = error as { status?: number; message?: string };
+	// 404s and refused requests are expected, so only real failures reach the logs.
+	if (status && status < 500) return { message: message ?? 'Not found' };
+
 	// Supabase errors are plain objects, so they need formatting to be readable in the logs.
 	// eslint-disable-next-line no-console -- server logs are the only record of these
-	console.error(
-		event.url.pathname,
-		status,
-		JSON.stringify(error, Object.getOwnPropertyNames(error))
-	);
+	console.error(event.url.pathname, JSON.stringify(error, Object.getOwnPropertyNames(error)));
 	return { message: 'Something went wrong' };
 };
