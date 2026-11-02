@@ -29,6 +29,21 @@ export default async function setup() {
 		ids.set(email, created.user.id);
 	}
 
+	// A few posts judged by two raters, so the results page has agreement to show.
+	const { data: shared, error: sharedError } = await database.from('dataset').select('id').limit(4);
+	if (sharedError) throw sharedError;
+	const verdicts = (shared ?? []).flatMap(({ id }, index) => [
+		{ user_id: ids.get(people.owner), dataset_id: id, status: 'completed', label: 'TRUE' },
+		{
+			user_id: ids.get(people.outsider),
+			dataset_id: id,
+			status: 'completed',
+			label: index % 2 ? 'FALSE' : 'TRUE'
+		}
+	]);
+	const { error: verdictError } = await database.from('user_label_interaction').insert(verdicts);
+	if (verdictError) throw verdictError;
+
 	const { error } = await database
 		.from('project_owners')
 		.insert({ user_id: ids.get(people.owner) });

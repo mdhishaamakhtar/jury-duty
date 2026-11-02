@@ -89,7 +89,7 @@ test('owners can label and see results', async ({ page, context }) => {
 	await page.goto('/label');
 	await page.getByRole('link', { name: 'Results' }).filter({ visible: true }).click();
 	await expect(page.getByRole('heading', { name: 'Inter-rater agreement' })).toBeVisible();
-	await expect(page.getByText('Krippendorff’s α')).toBeVisible();
+	await expect(page.getByText('Krippendorff’s α', { exact: true })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Rater pairs' })).toBeVisible();
 	const left = (selector: string) =>
 		page

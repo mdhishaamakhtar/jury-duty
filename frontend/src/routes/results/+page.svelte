@@ -152,8 +152,12 @@
 	<section>
 		<h2>Inter-rater agreement</h2>
 		<p class="section-note">
-			Measured on the {count(agreement.posts)} posts labeled by at least two of
-			{agreement.raters} raters.
+			{#if agreement.posts}
+				Measured on the {count(agreement.posts)} posts labeled by at least two of
+				{agreement.raters} raters.
+			{:else}
+				How consistently raters judge the same post.
+			{/if}
 		</p>
 
 		{#if agreement.posts && overlapShare < 0.1}
@@ -163,51 +167,58 @@
 			</p>
 		{/if}
 
-		<div class="headline">
-			<div>
-				<p class="eyebrow">Krippendorff’s α</p>
-				<p class="alpha">{score(agreement.krippendorff)}</p>
-				{#if agreement.krippendorffInterval}
-					<p class="interval">
-						95% interval {score(agreement.krippendorffInterval.low)} to
-						{score(agreement.krippendorffInterval.high)}
-					</p>
-				{/if}
-			</div>
-			<div class="headline-text">
-				<p class="band">{describeAgreement(agreement.krippendorff)}</p>
-				<p>{reading}</p>
-				<div class="scale" aria-hidden="true">
-					<span class="mark" style:left="{position(agreement.krippendorff)}%"></span>
-					<span class="tick" style:left="{position(0.667)}%"><small>0.67</small></span>
-					<span class="tick" style:left="{position(0.8)}%"><small>0.80</small></span>
-					<span class="tick" style:left="50%"><small>0</small></span>
-				</div>
-				<p class="fine">
-					It corrects for chance and handles any number of raters per post, so it’s the main score
-					here.
-				</p>
-			</div>
-		</div>
-
-		<div class="measures">
-			{#each measures as measure (measure.name)}
-				<article>
-					<div class="measure-top">
-						<h3>{measure.name}</h3>
-						{#if measure.band}<span class="chip">{measure.band}</span>{/if}
-					</div>
-					<p class="value">{measure.shown}</p>
-					{#if measure.interval}
+		{#if agreement.posts}
+			<div class="headline">
+				<div>
+					<p class="eyebrow">Krippendorff’s α</p>
+					<p class="alpha">{score(agreement.krippendorff)}</p>
+					{#if agreement.krippendorffInterval}
 						<p class="interval">
-							95% interval {score(measure.interval.low)} to {score(measure.interval.high)}
+							95% interval {score(agreement.krippendorffInterval.low)} to
+							{score(agreement.krippendorffInterval.high)}
 						</p>
 					{/if}
-					<p class="question">{measure.question}</p>
-					<p class="fine">{measure.note}</p>
-				</article>
-			{/each}
-		</div>
+				</div>
+				<div class="headline-text">
+					<p class="band">{describeAgreement(agreement.krippendorff)}</p>
+					<p>{reading}</p>
+					<div class="scale" aria-hidden="true">
+						<span class="mark" style:left="{position(agreement.krippendorff)}%"></span>
+						<span class="tick" style:left="{position(0.667)}%"><small>0.67</small></span>
+						<span class="tick" style:left="{position(0.8)}%"><small>0.80</small></span>
+						<span class="tick" style:left="50%"><small>0</small></span>
+					</div>
+					<p class="fine">
+						It corrects for chance and handles any number of raters per post, so it’s the main score
+						here.
+					</p>
+				</div>
+			</div>
+
+			<div class="measures">
+				{#each measures as measure (measure.name)}
+					<article>
+						<div class="measure-top">
+							<h3>{measure.name}</h3>
+							{#if measure.band}<span class="chip">{measure.band}</span>{/if}
+						</div>
+						<p class="value">{measure.shown}</p>
+						{#if measure.interval}
+							<p class="interval">
+								95% interval {score(measure.interval.low)} to {score(measure.interval.high)}
+							</p>
+						{/if}
+						<p class="question">{measure.question}</p>
+						<p class="fine">{measure.note}</p>
+					</article>
+				{/each}
+			</div>
+		{:else}
+			<p class="empty">
+				Agreement appears here once at least one post has verdicts from two raters. Posts get a
+				second rater after every post has its first.
+			</p>
+		{/if}
 	</section>
 
 	{#if agreement.pairs.length}
@@ -394,6 +405,15 @@
 		color: #5b4a4e;
 		font-size: 17px;
 		text-wrap: pretty;
+	}
+
+	.empty {
+		max-width: 44em;
+		margin-top: 20px;
+		padding: 18px 20px;
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		background: var(--surface);
 	}
 
 	.caution {
