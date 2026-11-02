@@ -14,4 +14,4 @@ Rules: never run UPDATE, DELETE or DROP against existing rows. Compare row count
 
 ## After go-live
 
-- [ ] Delete the Supabase edge functions `get_next_datapoint` and `label_data`
+- [x] Delete the Supabase edge functions `get_next_datapoint` and `label_data`
