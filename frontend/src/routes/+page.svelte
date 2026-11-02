@@ -278,6 +278,11 @@
 		font-weight: 600;
 	}
 
+	.tag a {
+		color: inherit;
+		text-underline-offset: 3px;
+	}
+
 	.sample {
 		flex: 1;
 		margin-bottom: 16px;
