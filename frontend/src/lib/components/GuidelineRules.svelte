@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { guidelines } from '#lib/guidelines.ts';
+	import { jury } from '#lib/jury.config.ts';
+
+	const { guidelines } = jury;
 </script>
 
 <p class="intro">{guidelines.intro}</p>

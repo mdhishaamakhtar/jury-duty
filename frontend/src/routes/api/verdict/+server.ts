@@ -1,5 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import { castVerdict } from '#lib/server/posts.ts';
+import { castVerdict } from '#lib/server/database.ts';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request, locals }) => {

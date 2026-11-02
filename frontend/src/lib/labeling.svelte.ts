@@ -5,12 +5,14 @@ export type SubmitResult =
 
 export interface LabelingDeps {
 	submit: (postId: string, verdict: Verdict) => Promise<SubmitResult>;
+	undo: () => Promise<Post | null>;
 	reload: () => void;
 	wait?: (ms: number) => Promise<void>;
 }
 
 const FEEDBACK_MS = 260;
 const LEAVE_MS = 170;
+const BREAK_EVERY = 50;
 
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
@@ -19,7 +21,11 @@ export class LabelingSession {
 	pending = $state<Verdict | null>(null);
 	failed = $state<Verdict | null>(null);
 	leaving = $state(false);
+	lastVerdict = $state<Verdict | null>(null);
+	undoExpired = $state(false);
+	breakDue = $state(false);
 
+	#saved = 0;
 	readonly #deps: LabelingDeps;
 	readonly #wait: (ms: number) => Promise<void>;
 
@@ -40,6 +46,8 @@ export class LabelingSession {
 	async cast(verdict: Verdict): Promise<void> {
 		if (this.pending || this.failed || !this.post) return;
 		this.pending = verdict;
+		this.lastVerdict = null;
+		this.undoExpired = false;
 		const started = Date.now();
 		try {
 			const result = await this.#deps.submit(this.post.id, verdict);
@@ -53,6 +61,9 @@ export class LabelingSession {
 			this.post = result.next;
 			this.pending = null;
 			this.leaving = false;
+			this.lastVerdict = verdict;
+			this.#saved += 1;
+			if (this.#saved % BREAK_EVERY === 0) this.breakDue = true;
 		} catch {
 			this.pending = null;
 			this.failed = verdict;
@@ -63,5 +74,20 @@ export class LabelingSession {
 		const verdict = this.failed;
 		this.failed = null;
 		return verdict ? this.cast(verdict) : Promise.resolve();
+	}
+
+	async undo(): Promise<void> {
+		if (!this.lastVerdict || this.pending) return;
+		this.lastVerdict = null;
+		try {
+			this.post = await this.#deps.undo();
+			this.#saved = Math.max(0, this.#saved - 1);
+		} catch {
+			this.undoExpired = true;
+		}
+	}
+
+	dismissBreak() {
+		this.breakDue = false;
 	}
 }

@@ -1,5 +1,5 @@
 import { createServerClient } from '@supabase/ssr';
-import type { Handle } from '@sveltejs/kit/hooks';
+import type { Handle, HandleServerError } from '@sveltejs/kit/hooks';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$app/env/public';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -23,4 +23,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 	return resolve(event, {
 		filterSerializedResponseHeaders: (name) => name === 'content-range'
 	});
+};
+
+export const handleError: HandleServerError = ({ error, event, status }) => {
+	// Supabase errors are plain objects, so they need formatting to be readable in the logs.
+	// eslint-disable-next-line no-console -- server logs are the only record of these
+	console.error(
+		event.url.pathname,
+		status,
+		JSON.stringify(error, Object.getOwnPropertyNames(error))
+	);
+	return { message: 'Something went wrong' };
 };

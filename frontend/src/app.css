@@ -74,6 +74,7 @@ button:focus-visible {
 	padding: 0;
 	border: 0;
 	background: none;
+	color: inherit;
 	font-weight: 600;
 	text-decoration: underline;
 	text-underline-offset: 3px;
