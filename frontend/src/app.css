@@ -25,6 +25,7 @@
 	--read: 'Literata Variable', Georgia, serif;
 	--ui: 'Figtree Variable', Arial, sans-serif;
 	--ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--gutter: clamp(18px, 5vw, 72px);
 }
 
 *,

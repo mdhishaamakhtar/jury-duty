@@ -92,26 +92,36 @@
 </section>
 
 <section class="how">
-	<h2>How it works</h2>
-	<div class="steps">
-		<div>
-			<h3>Read one post</h3>
-			<p>Nothing else competes for your attention. Each post gets your full judgement.</p>
-		</div>
-		<div>
-			<h3>Check the guidelines</h3>
-			<p>The written guidelines are one click away, whenever a post is a close call.</p>
-		</div>
-		<div>
-			<h3>Cast your verdict</h3>
-			<p>True or false, by click, tap or keyboard. Then the next post is ready.</p>
+	<div class="wrap">
+		<h2>How it works</h2>
+		<div class="steps">
+			<div>
+				<h3>Read one post</h3>
+				<p>Nothing else competes for your attention. Each post gets your full judgement.</p>
+			</div>
+			<div>
+				<h3>Check the guidelines</h3>
+				<p>The written guidelines are one click away, whenever a post is a close call.</p>
+			</div>
+			<div>
+				<h3>Cast your verdict</h3>
+				<p>True or false, by click, tap or keyboard. Then the next post is ready.</p>
+			</div>
 		</div>
 	</div>
 </section>
 
 <footer>
-	<span>jury duty</span>
-	<small>Confidential · Internal Use Only</small>
+	<div class="wrap foot">
+		<span class="foot-brand"><Logo size={24} /> jury duty</span>
+		<div class="foot-links">
+			<button class="link" onclick={() => (guidesOpen = true)}>Guidelines</button>
+			<form method="POST" action="/auth/login">
+				<button class="link">Sign in</button>
+			</form>
+		</div>
+		<small>Confidential · Internal Use Only</small>
+	</div>
 </footer>
 
 {#if guidesOpen}
@@ -127,15 +137,15 @@
 
 <style>
 	.hero {
-		padding: 0 clamp(18px, 5vw, 72px) 88px;
+		padding: 0 var(--gutter) 88px;
 		background: var(--rose);
 		color: var(--panel-ink);
 	}
 
+	/* Every section shares this width, so left and right edges line up down the page. */
 	nav,
 	.hero-grid,
-	.how,
-	footer {
+	.wrap {
 		max-width: 1240px;
 		margin: 0 auto;
 	}
@@ -279,7 +289,7 @@
 	}
 
 	.how {
-		padding: 88px clamp(18px, 5vw, 72px) 96px;
+		padding: 88px var(--gutter) 96px;
 	}
 
 	.how h2 {
@@ -316,23 +326,44 @@
 	}
 
 	footer {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 8px 24px;
-		padding: 24px clamp(18px, 5vw, 72px);
+		padding: 28px var(--gutter);
 		border-top: 1px solid var(--line);
 	}
 
-	footer span {
+	.foot {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		gap: 12px 24px;
+	}
+
+	.foot-brand {
+		display: flex;
+		align-items: center;
+		gap: 8px;
 		font-family: var(--read);
 		font-size: 18px;
 		font-weight: 600;
 	}
 
-	footer small {
+	.foot-links {
+		display: flex;
+		gap: 24px;
+	}
+
+	.foot small {
+		justify-self: end;
 		font-size: 14px;
+	}
+
+	@media (max-width: 640px) {
+		.foot {
+			grid-template-columns: 1fr;
+		}
+
+		.foot small {
+			justify-self: start;
+		}
 	}
 
 	.scrim {
