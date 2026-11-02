@@ -1,16 +1,15 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import GuidelineRules from '#lib/components/GuidelineRules.svelte';
 	import Logo from '#lib/components/Logo.svelte';
 	import VerdictButtons from '#lib/components/VerdictButtons.svelte';
+	import { jury } from '#lib/jury.config.ts';
 	import type { Verdict } from '#lib/types.ts';
 
 	let { data } = $props();
 
-	const samples = [
-		"Three months without a cigarette, then my sister's wedding happened. I said yes before I even thought about it and smoked most of a pack that weekend. Day two again.",
-		"Day 212 and the cravings still show up out of nowhere. Walked past the old smoking spot at work and my hands moved to my pocket. Didn't have one.",
-		"My brother started again after six years clean and I can't stop thinking about it. Any advice for talking to him without making it worse?"
-	];
+	const samples = jury.samples;
 
 	let index = $state(0);
 	let pending = $state<Verdict | null>(null);
@@ -31,10 +30,11 @@
 
 <svelte:head>
 	<title>Jury Duty</title>
-	<meta
-		name="description"
-		content="Read one post at a time and decide it against the guidelines."
-	/>
+	<meta name="description" content={jury.lead} />
+	<meta property="og:title" content="Jury Duty" />
+	<meta property="og:description" content={jury.lead} />
+	<meta property="og:image" content="{page.url.origin}/og.png" />
+	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
 <svelte:window onkeydown={(event) => event.key === 'Escape' && (guidesOpen = false)} />
@@ -49,11 +49,8 @@
 
 	<div class="hero-grid">
 		<div class="pitch">
-			<h1>Every post gets a fair hearing.</h1>
-			<p class="lead">
-				Read one post at a time and decide it against the written guidelines. Every rater judges
-				independently, like a juror.
-			</p>
+			<h1>{jury.headline}</h1>
+			<p class="lead">{jury.lead}</p>
 			{#if data.signInFailed}
 				<p class="notice" role="alert">Sign in didn’t finish. Please try again.</p>
 			{/if}
@@ -82,7 +79,10 @@
 		</div>
 
 		<div class="card">
-			<p class="tag">Try it · Synthetic sample</p>
+			<p class="tag">
+				<span>Try it · Synthetic sample</span>
+				<a href={resolve('/demo')}>Open the demo</a>
+			</p>
 			{#key index}
 				<p class="sample" class:leaving>{samples[index % samples.length]}</p>
 			{/key}
@@ -119,8 +119,9 @@
 			<form method="POST" action="/auth/login">
 				<button class="link">Sign in</button>
 			</form>
+			<a class="link" href={resolve('/demo')}>Demo</a>
 		</div>
-		<small>Confidential · Internal Use Only</small>
+		<small>{jury.footerNote}</small>
 	</div>
 </footer>
 
@@ -268,6 +269,9 @@
 	}
 
 	.tag {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
 		margin-bottom: 14px;
 		color: var(--wine);
 		font-size: 14px;

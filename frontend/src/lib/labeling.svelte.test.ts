@@ -9,11 +9,14 @@ const post = (id: string, labeled = 10): Post => ({
 	remaining_count: 90
 });
 
-const setup = (submit: LabelingDeps['submit']) => {
+const setup = (
+	submit: LabelingDeps['submit'],
+	undo: LabelingDeps['undo'] = async () => post('a')
+) => {
 	const reload = vi.fn();
 	return {
 		reload,
-		session: new LabelingSession(post('a'), { submit, reload, wait: async () => {} })
+		session: new LabelingSession(post('a'), { submit, undo, reload, wait: async () => {} })
 	};
 };
 
@@ -76,6 +79,46 @@ describe('LabelingSession', () => {
 		const { session, reload } = setup(async () => ({ kind }));
 		await session.cast('TRUE');
 		expect(reload).toHaveBeenCalledOnce();
+	});
+
+	it('undoes the last verdict and returns to that post', async () => {
+		const { session } = setup(async () => ({ kind: 'saved', next: post('b', 11) }));
+		await session.cast('TRUE');
+		expect(session.lastVerdict).toBe('TRUE');
+		await session.undo();
+		expect(session.post?.id).toBe('a');
+		expect(session.lastVerdict).toBeNull();
+	});
+
+	it('has nothing to undo before a verdict', async () => {
+		const undo = vi.fn(async () => post('a'));
+		const { session } = setup(async () => ({ kind: 'conflict' }), undo);
+		await session.undo();
+		expect(undo).not.toHaveBeenCalled();
+	});
+
+	it('keeps the next post when undo has expired', async () => {
+		const { session } = setup(
+			async () => ({ kind: 'saved', next: post('b') }),
+			async () => {
+				throw new Error('nothing_to_undo');
+			}
+		);
+		await session.cast('FALSE');
+		await session.undo();
+		expect(session.post?.id).toBe('b');
+		expect(session.undoExpired).toBe(true);
+	});
+
+	it('suggests a break every 50 verdicts', async () => {
+		let id = 0;
+		const { session } = setup(async () => ({ kind: 'saved', next: post(`p${(id += 1)}`) }));
+		for (let count = 0; count < 49; count += 1) await session.cast('TRUE');
+		expect(session.breakDue).toBe(false);
+		await session.cast('TRUE');
+		expect(session.breakDue).toBe(true);
+		session.dismissBreak();
+		expect(session.breakDue).toBe(false);
 	});
 
 	it('reports progress', () => {
