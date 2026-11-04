@@ -34,6 +34,9 @@
 	<meta property="og:title" content="Jury Duty" />
 	<meta property="og:description" content={jury.lead} />
 	<meta property="og:image" content="{page.url.origin}/og.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="Jury Duty: every post gets a fair hearing" />
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 

@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 -->
 
 <p align="center">
-  <img src="./.github/assets/jury-duty-preview.png" alt="Jury Duty: every post gets a fair hearing" width="1200">
+  <img src="./.github/assets/jury-duty-preview.png" alt="Jury Duty: every post gets a fair hearing" width="820">
 </p>
 
 ## Jury Duty
